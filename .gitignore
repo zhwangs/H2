@@ -1,0 +1,7 @@
+cache/images/
+cache/videos/
+.vscode/
+__pycache__/
+token.txt
+test/img/
+test/vid/
