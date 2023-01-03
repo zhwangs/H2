@@ -22,12 +22,12 @@ w0=9
 w1=12
 V_00=0
 V_01=0
-V_11=0
+V_11=5
 J_11_start=0
 J_11_end=30
 J_01_start=0
 J_01_end=30
-file_loc='/first_two_energy_spectrum_w0_'+str(w0)+'_w1_'+str(w1)+'_V11_'+str(V_11)+'_V00_'+str(V_00)+'_N_'+str(N)+'_J_11_end_'+str(J_11_end)+'_J_01_end_'+str(J_01_end)
+file_loc='/spectrum_w0_'+str(w0)+'_w1_'+str(w1)+'_V11_'+str(V_11)+'_V00_'+str(V_00)+'_N_'+str(N)+'_J_11_end_'+str(J_11_end)+'_J_01_end_'+str(J_01_end)
 
 J11_arry=np.linspace(J_11_start,J_11_end,N)
 J01_arry=np.linspace(J_01_start,J_01_end,N)

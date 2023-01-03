@@ -468,7 +468,7 @@ class Data_process:
     #def hist_plot(self,plot_index,cl)
 
 
-    def simple_scatter(self,plot_index,x_arry,y_arry,color_t='red',marker='s',log_scale_x=True,log_scale_y=True,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=20,cbar_label=''):
+    def simple_scatter(self,plot_index,x_arry,y_arry,color_t='red',marker='s',log_scale_x=True,log_scale_y=True,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=20,cbar_label='',cbar_=True):
         ax_1= self.axes[str(plot_index)]
         
         pos=ax_1.scatter(x_arry,y_arry, s=s, c=color_t, marker=marker,cmap='RdBu',zorder=1,label=label_name,alpha=alpha  )
@@ -480,10 +480,11 @@ class Data_process:
         if log_scale_x:
             ax_1.set_xscale('log')
         #ax_1.legend(loc='upper right', bbox_to_anchor=(1, 1))
-        cbar=self.fig.colorbar(pos,ax=ax_1)
-        cbar.ax.tick_params(labelsize=8)
-        cbar.ax.xaxis.set_ticks_position("top")
-        cbar.ax.set_title(cbar_label,fontsize=8)
+        if cbar_:
+            cbar=self.fig.colorbar(pos,ax=ax_1)
+            cbar.ax.tick_params(labelsize=8)
+            cbar.ax.xaxis.set_ticks_position("top")
+            cbar.ax.set_title(cbar_label,fontsize=8)
     def simple_plot(self,plot_index,x_arry,y_arry,color_t='red',log_scale_x=True,log_scale_y=True,label_name=' ',alpha=0.1,lw=1):
         ax_1= self.axes[str(plot_index)]
         ax_1.plot(x_arry,y_arry,   c=color_t ,zorder=5,label=label_name,alpha=alpha, linestyle='dashed',lw=lw  )

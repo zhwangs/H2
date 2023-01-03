@@ -27,6 +27,36 @@ class H_sys:
         self.Val_1=linalg.eig(matrix_H)
 
 
+        matrix_single_e=np.array([
+            [-2*w/3,-1j*w0,-1j*w0],
+            [1j*w0,w/3,0],
+            [1j*w0,0 ,w/3]
+        ])
+        self.single_e=linalg.eig(matrix_single_e)
+
+
+        matrix_exciton=np.array([
+        [1*w/3,0,0,0,0,-1j*w0],
+        [0,1*w/3,0,0,-1j*w0,0],
+        [0,0,-1*w/3,0,-1j*w0,0],
+        [0,0,0,-1*w/3,0,-1j*w0],
+        [0,1j*w0,1j*w0,0,0,0],
+        [1j*w0,0,0,1j*w0,0,0]]) 
+        self.Ext=linalg.eig(matrix_exciton)
+ 
+        matrix_Extend=np.array([
+        [0, -1j*w0, -1j*w0,-1j*w0, -1j*w0, 0, 0, 0, 0],
+        [1j*w0, 1*w/3,  0,-0, 0,-1j*w0, 0,-1j*w0, 0],
+        [1j*w0,  0, -1*w/3, 0, -0, -1j*w0,-1j*w0, 0, 0],
+        [1j*w0, -0, 0, 1*w/3, 0, 0,-1j*w0, 0, -1j*w0],
+        [1j*w0, 0, -0,   0, -1*w/3, 0, 0, -1j*w0, -1j*w0],
+        [0, 1j*w0, 1j*w0, 0, 0, 0, -0, -0, 0],
+        [0, 0, 1j*w0, 1j*w0, 0, -0, 0,   0, 0],
+        [0, 1j*w0, 0, 0, 1j*w0, 0,  0, 0,0],
+        [0, 0, 0, 1j*w0, 1j*w0, 0, -0, -0,0]])
+        self.Extend=linalg.eig(matrix_Extend)
+
+
 
 
 
@@ -59,7 +89,31 @@ class H_sys:
         self.coeff_2e()
         self.coeff_3e()
        # self.mag_phase_eigen_vector()
-        
+    def get_extend(self):
+        inde_arry=np.argsort(self.Extend[0])
+        Extend_val=np.round((self.Extend[0][inde_arry]),5)
+        Extend_vec=np.round((self.Extend[1].T[inde_arry]),5)
+        print('extended')
+        print(Extend_val)
+        print(np.round(Extend_vec,3))
+    def get_extion_info(self):
+        inde_arry=np.argsort(self.Ext[0])
+        ext_eigen_val=np.round((self.Ext[0][inde_arry]),5)
+        ext_eigen_vec=np.round((self.Ext[1].T[inde_arry]),5)
+        print('exciton_info')
+        Ex_dif=np.unique(np.round((ext_eigen_val) ,5))[np.unique(np.round((ext_eigen_val) ,5))!=0]
+        print(Ex_dif)
+      #$ print(ext_eigen_vec)
+        print('single_e')
+        E_dif=np.round(self.single_e[0]-np.min(np.abs(self.single_e[0])),5)[np.round(self.single_e[0]-np.min(np.abs(self.single_e[0])),5)!=0] 
+        print(E_dif)
+        print(0.5*np.sum(np.abs(np.round(self.single_e[0]-np.min(np.abs(self.single_e[0])),5))))
+        Dif=Ex_dif-E_dif
+        print(Dif)
+        print(Dif[0]/Dif[1])
+        print(self.w/self.w0)
+
+        return Ex_dif, E_dif, (Dif[0]/Dif[1]).real, self.w0/self.w
     def get_ref_val(self):
         return self.Two_zero_ref_val, self.Three_zero_ref_val
 
@@ -78,7 +132,8 @@ class H_sys:
 
         self.unique_eigen_states_3e=eigen_vector_list[index_]
         self.unique_eigen_states_len_3e=len(self.unique_eigen_states_2e)
-
+    def get_ref_eigen_val(self):
+        return self.order_eigen_val_2e-self.order_eigen_val_2e[0]
     def sort_eigen_value(self):
         bare_eignval=self.Val_1[0]
         bare_eignvec=self.Val_1[1]
@@ -127,6 +182,216 @@ class H_sys:
         #phi_1=np.arctan2(Vla[2].real,Vla[0].real)
         #phi_2=np.arctan2(Vla2[3].real,Vla2[1].real)
        # return phi_1,phi_2
+
+    def index_2e(self):
+        self.index_0_2e=np.zeros(9)
+        self.index_0_2e[0]=1
+        self.index_0_2e[1]=1
+        self.index_0_2e[3]=1
+
+        self.index_x_2e=np.zeros(9)
+        self.index_x_2e[1]=1
+        self.index_x_2e[5]=1
+        self.index_x_2e[6]=1
+
+        self.index_y_2e=np.zeros(9)
+        self.index_y_2e[3]=1
+        self.index_y_2e[7]=1
+        self.index_y_2e[8]=1
+
+        self.T_0x=np.zeros((9,9))
+        self.T_0x[0,1]=1
+        self.T_0x[2,5]=1
+        self.T_0x[4,7]=1
+
+        self.T_0y=np.zeros((9,9))
+        self.T_0y[0,3]=1
+        self.T_0y[2,6]=1
+        self.T_0y[4,8]=1
+
+        self.T_00=np.zeros((9,9))
+        self.T_00[0,0]=1
+        self.T_00[2,2]=1
+        self.T_00[4,4]=1
+
+
+        self.T_xx=np.zeros((9,9))
+        self.T_xx[1,1]=1
+        self.T_xx[5,5]=1
+        self.T_xx[7,7]=1
+
+        self.T_yy=np.zeros((9,9))
+        self.T_yy[3,3]=1
+        self.T_yy[6,6]=1
+        self.T_yy[8,8]=1
+
+        self.T_yx=np.zeros((9,9))
+        self.T_yx[3,1]=1
+        self.T_yx[6,5]=1
+        self.T_yx[8,7]=1
+        print(self.T_yx.T)
+        print(self.T_yx@self.order_eigen_vec_2e[0])
+        print(np.conjugate(self.order_eigen_vec_2e[5]))
+        print(np.sum(np.conjugate(self.order_eigen_vec_2e[5])*self.T_yx@self.order_eigen_vec_2e[0]))
+
+        print(np.conjugate(self.order_eigen_vec_2e[5]).T@self.T_yx.T@self.order_eigen_vec_2e[0])
+        print(self.order_eigen_val_2e[5]-self.order_eigen_val_2e[0])
+    def Greens_function_0x_2e(self,omega=3):
+        ground_val=self.order_eigen_val_2e[0]
+        ground_vec=self.order_eigen_vec_2e[0]
+        G0x=0+1j
+        for i in range(1,len(self.order_eigen_vec_2e)):
+            current_eigen_val=self.order_eigen_val_2e[i]
+            current_eigen_vec=self.order_eigen_vec_2e[i]
+            left_1=np.conjugate(ground_vec).T@self.T_0x@current_eigen_vec
+            left_2=np.conjugate(current_eigen_vec).T@self.T_0x.T@ground_vec
+            coeff_left=left_1*left_2
+
+            right_1=np.conjugate(ground_vec).T@self.T_0x.T@current_eigen_vec
+            right_2=np.conjugate(current_eigen_vec).T@self.T_0x@ground_vec
+            coeff_right=right_1*right_2
+
+  
+            current_G=(coeff_left/(omega-(current_eigen_val-ground_val)+0.01*1j)+coeff_right/(omega+(current_eigen_val-ground_val)+0.01*1j))
+            G0x=G0x+current_G
+        return G0x.real , G0x.imag
+
+    def Greens_function_0y_2e(self,omega=3):
+        ground_val=self.order_eigen_val_2e[0]
+        ground_vec=self.order_eigen_vec_2e[0]
+        G0y=0+1j
+        for i in range(1,len(self.order_eigen_vec_2e)):
+            current_eigen_val=self.order_eigen_val_2e[i]
+            current_eigen_vec=self.order_eigen_vec_2e[i]
+            left_1=np.conjugate(ground_vec).T@self.T_0y@current_eigen_vec
+            left_2=np.conjugate(current_eigen_vec).T@self.T_0y.T@ground_vec
+            coeff_left=left_1*left_2
+
+            right_1=np.conjugate(ground_vec).T@self.T_0y.T@current_eigen_vec
+            right_2=np.conjugate(current_eigen_vec).T@self.T_0y@ground_vec
+            coeff_right=right_1*right_2
+
+ 
+            current_G=(coeff_left/(omega-(current_eigen_val-ground_val)+0.01*1j)+coeff_right/(omega+(current_eigen_val-ground_val)+0.01*1j))
+            G0y=G0y+current_G
+        return G0y.real , G0y.imag
+
+    def Greens_function_00_2e(self,omega=3):
+        ground_val=self.order_eigen_val_2e[0]
+        ground_vec=self.order_eigen_vec_2e[0]
+        G00=0+1j
+        for i in range(1,len(self.order_eigen_vec_2e)):
+            current_eigen_val=self.order_eigen_val_2e[i]
+            current_eigen_vec=self.order_eigen_vec_2e[i]
+            left_1=np.conjugate(ground_vec).T@self.T_00@current_eigen_vec
+            left_2=np.conjugate(current_eigen_vec).T@self.T_00.T@ground_vec
+            coeff_left=left_1*left_2
+
+            right_1=np.conjugate(ground_vec).T@self.T_00.T@current_eigen_vec
+            right_2=np.conjugate(current_eigen_vec).T@self.T_00@ground_vec
+            coeff_right=right_1*right_2
+
+ 
+            current_G=(coeff_left/(omega-(current_eigen_val-ground_val)+0.01*1j)+coeff_right/(omega+(current_eigen_val-ground_val)+0.01*1j))
+            G00=G00+current_G
+        return G00.real , G00.imag
+
+
+
+    def Greens_function_xx_2e(self,omega=3):
+        ground_val=self.order_eigen_val_2e[0]
+        ground_vec=self.order_eigen_vec_2e[0]
+        Gxx=0+1j
+        for i in range(1,len(self.order_eigen_vec_2e)):
+            current_eigen_val=self.order_eigen_val_2e[i]
+            current_eigen_vec=self.order_eigen_vec_2e[i]
+            left_1=np.conjugate(ground_vec).T@self.T_xx@current_eigen_vec
+            left_2=np.conjugate(current_eigen_vec).T@self.T_xx.T@ground_vec
+            coeff_left=left_1*left_2
+
+            right_1=np.conjugate(ground_vec).T@self.T_xx.T@current_eigen_vec
+            right_2=np.conjugate(current_eigen_vec).T@self.T_xx@ground_vec
+            coeff_right=right_1*right_2
+ 
+            current_G=(coeff_left/(omega-(current_eigen_val-ground_val)+0.01*1j)+coeff_right/(omega+(current_eigen_val-ground_val)+0.01*1j))
+            Gxx=Gxx+current_G
+        return Gxx.real , Gxx.imag
+
+    def Greens_function_yy_2e(self,omega=3):
+        ground_val=self.order_eigen_val_2e[0]
+        ground_vec=self.order_eigen_vec_2e[0]
+        Gyy=0+1j
+        for i in range(1,len(self.order_eigen_vec_2e)):
+            current_eigen_val=self.order_eigen_val_2e[i]
+            current_eigen_vec=self.order_eigen_vec_2e[i]
+            left_1=np.conjugate(ground_vec).T@self.T_yy@current_eigen_vec
+            left_2=np.conjugate(current_eigen_vec).T@self.T_yy.T@ground_vec
+            coeff_left=left_1*left_2
+
+            right_1=np.conjugate(ground_vec).T@self.T_yy.T@current_eigen_vec
+            right_2=np.conjugate(current_eigen_vec).T@self.T_yy@ground_vec
+            coeff_right=right_1*right_2
+ 
+            current_G=(coeff_left/(omega-(current_eigen_val-ground_val)+0.01*1j)+coeff_right/(omega+(current_eigen_val-ground_val)+0.01*1j))
+            Gyy=Gyy+current_G
+        return Gyy.real , Gyy.imag
+
+    def Greens_function_yx_2e(self,omega=3):
+        ground_val=self.order_eigen_val_2e[0]
+        ground_vec=self.order_eigen_vec_2e[0]
+        Gyx=0+1j
+        for i in range(1,len(self.order_eigen_vec_2e)):
+            current_eigen_val=self.order_eigen_val_2e[i]
+            current_eigen_vec=self.order_eigen_vec_2e[i]
+            left_1=np.conjugate(ground_vec).T@self.T_yx@current_eigen_vec
+            left_2=np.conjugate(current_eigen_vec).T@self.T_yx.T@ground_vec
+            coeff_left=left_1*left_2
+
+            right_1=np.conjugate(ground_vec).T@self.T_yx.T@current_eigen_vec
+            right_2=np.conjugate(current_eigen_vec).T@self.T_yx@ground_vec
+            coeff_right=right_1*right_2
+ 
+            current_G=(coeff_left/(omega-(current_eigen_val-ground_val)+0.01*1j)+coeff_right/(omega+(current_eigen_val-ground_val)+0.01*1j))
+            Gyx=Gyx+current_G
+        return Gyx.real , Gyx.imag
+
+    def Green_fuc(self,omega_start,omega_end,N):
+        omega_arry=np.linspace(omega_start,omega_end,N)
+        G0x_real_arry=[]
+        G0x_imag_arry=[]
+        G0y_real_arry=[]
+        G0y_imag_arry=[]
+        G00_real_arry=[]
+        G00_imag_arry=[]
+        Gxx_real_arry=[]
+        Gxx_imag_arry=[]
+        Gyx_real_arry=[]
+        Gyx_imag_arry=[]
+        Gyy_real_arry=[]
+        Gyy_imag_arry=[]
+
+        for i in range(0,N):
+            current_omega=omega_arry[i]
+            G0x_real,G0x_imag=self.Greens_function_0x_2e(omega=current_omega)
+            G0x_real_arry.append(G0x_real)
+            G0x_imag_arry.append(G0x_imag)
+            G0y_real,G0y_imag=self.Greens_function_0y_2e(omega=current_omega)
+            G0y_real_arry.append(G0y_real)
+            G0y_imag_arry.append(G0y_imag)
+            G00_real,G00_imag=self.Greens_function_00_2e(omega=current_omega)
+            G00_real_arry.append(G00_real)
+            G00_imag_arry.append(G00_imag)
+            Gxx_real,Gxx_imag=self.Greens_function_xx_2e(omega=current_omega)
+            Gxx_real_arry.append(Gxx_real)
+            Gxx_imag_arry.append(Gxx_imag)
+            Gyx_real,Gyx_imag=self.Greens_function_yx_2e(omega=current_omega)
+            Gyx_real_arry.append(Gyx_real)
+            Gyx_imag_arry.append(Gyx_imag)
+            Gyy_real,Gyy_imag=self.Greens_function_yy_2e(omega=current_omega)
+            Gyy_real_arry.append(Gyy_real)
+            Gyy_imag_arry.append(Gyy_imag)
+
+        return G0x_real_arry, G0x_imag_arry,G0y_real_arry, G0y_imag_arry,G00_real_arry, G00_imag_arry,Gxx_real_arry, Gxx_imag_arry,Gyy_real_arry, Gyy_imag_arry,Gyx_real_arry, Gyx_imag_arry, omega_arry
     def get_first_two_eigen_info(self):
         info_vector=[self.w,self.w0,self.V00,self.V11,self.J01,self.J11]
         
