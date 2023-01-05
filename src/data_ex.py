@@ -34,6 +34,12 @@ class H_sys:
         ])
         self.single_e=linalg.eig(matrix_single_e)
 
+        matrix_2_e_spin1=np.array([
+            [-w/3,0,-1j*w0],
+            [0,-w/3,-1j*w0],
+            [1j*w0,1j*w0,2*w/3]
+        ])
+        self.E2_spin1=linalg.eig(matrix_2_e_spin1)
 
         matrix_exciton=np.array([
         [1*w/3,0,0,0,0,-1j*w0],
@@ -111,12 +117,32 @@ class H_sys:
         Extend_vec=np.round(self.normalize_all_eigen_vec(self.Extend[1].T[inde_arry]),3)
         print('extended')
         print(Extend_val)
-        print('single_E')
-        print(self.single_e[0]-np.min(np.abs(self.single_e[0])))
-        E_vec=self.normalize_all_eigen_vec(self.single_e[1].T)
-        print(np.round(E_vec,3))
-        print(Extend_vec )
- 
+        print('1_E')
+        inde_arry_E1=np.argsort(self.single_e[0])
+        E1_val=np.round((self.single_e[0][inde_arry_E1]),5)
+        E1_vec=np.round(self.normalize_all_eigen_vec(self.single_e[1].T[inde_arry_E1]),3)
+        print(E1_vec)
+        print(np.round(E1_val-self.single_e[0][np.argmin((np.abs(self.single_e[0])))],3))
+        print('-----')
+        print('2_E')
+        inde_arry_E2=np.argsort(self.Val_1[0])
+        E2_val=np.round((self.Val_1[0][inde_arry_E2]),5)
+        E2_vec=np.round(self.normalize_all_eigen_vec(self.Val_1[1].T[inde_arry_E2]),3)
+        #print(np.round(self.Val_1[0],3))
+        print(np.round(E2_val-self.Val_1[0][np.argmin((np.abs(self.Val_1[0])))],3))
+        print('2_E_spin1')
+        inde_arry_E2=np.argsort(self.E2_spin1[0])
+        E2_val=np.round((self.E2_spin1[0][inde_arry_E2]),5)
+        E2_vec=np.round(self.normalize_all_eigen_vec(self.E2_spin1[1].T[inde_arry_E2]),3)
+        #print(np.round(self.Val_1[0],3))
+        print(np.round(E2_val-self.E2_spin1[0][np.argmin((np.abs(self.E2_spin1[0])))],3))
+        print('-----')
+        print('3_E')
+        inde_arry_E3=np.argsort(self.Val_2[0])
+        E3_val=np.round((self.Val_2[0][inde_arry_E3]),5)
+        E3_vec=np.round(self.normalize_all_eigen_vec(self.Val_2[1].T[inde_arry_E3]),3)
+        #print(np.round(self.Val_1[0],3))
+        print(np.round(E3_val-self.Val_2[0][np.argmin((np.abs(self.Val_2[0])))],3))
         ''' Eigen state if normalized with only excited levels. 
         norm_a=np.round(Extend_vec[4]*(Extend_vec[5][0]/Extend_vec[4][0]),3)
         norm_b=np.round(Extend_vec[3]*(Extend_vec[4][0]/Extend_vec[3][0]),3)
