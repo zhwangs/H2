@@ -30,7 +30,7 @@ N_J=100
 J01_start=0
 J01_end=30
 J01_arry=np.linspace(J01_start,J01_end,N_J)
-
+root_loc=path_to_cache+'/data'
 for l in range(0,N_J):
     J01=J01_arry[l]
     H=H_sys(V00,V01,V11,J01,J11,t,w0,w1)
@@ -38,35 +38,35 @@ for l in range(0,N_J):
     H.index_2e()
     eigen_ref_2=H.get_ref_eigen_val()
 
-    omega_start=-100
-    omega_end=100
-    N=5000
+    omega_start=-30
+    omega_end=-25
+    N=10000
     G0x_real_arry, G0x_imag_arry,G0y_real_arry, G0y_imag_arry,G00_real_arry, G00_imag_arry,Gxx_real_arry, Gxx_imag_arry,Gyy_real_arry, Gyy_imag_arry,Gyx_real_arry, Gyx_imag_arry, omega_arry=H.Green_fuc(omega_start,omega_end,N)
     
     width=20
     height=20
-    root_loc=path_to_cache+'/data'
+
     data_=Data_process(row_num=6,column_num=2,root_dir=root_loc,width=width,height=height,letter=False)
     data_.fig_title(fig_name=r'$\omega_0=$'+str(w0)+r' $\omega_1=$'+str(w1)+r' $J_{0 1}=$'+str(np.round(J01,2)),title_size=30)
-    data_.add_axis_label(plot_index=1,x_axis_name=r'$\omega$',y_axis_name=r'Re$\{G_{0x}\}$',x_label_loc=0,y_label_loc=0,x_axis_range=[0],y_axis_range=[-0.01,0.01],fontsize=16,rotation_x=0,rotation_y=0)
-    data_.add_axis_label(plot_index=3,x_axis_name=r'$\omega$',y_axis_name=r'Im$\{G_{0x}\}$',x_label_loc=0,y_label_loc=0,x_axis_range=[0],y_axis_range=[0.99,1.01],fontsize=16,rotation_x=0,rotation_y=0)
+    data_.add_axis_label(plot_index=1,x_axis_name=r'$\omega$',y_axis_name=r'Re$\{G_{0x}\}$',x_label_loc=0,y_label_loc=0,x_axis_range=[omega_start,omega_end],y_axis_range=[-1.5,1.5],fontsize=16,rotation_x=0,rotation_y=0)
+    data_.add_axis_label(plot_index=3,x_axis_name=r'$\omega$',y_axis_name=r'Im$\{G_{0x}\}$',x_label_loc=0,y_label_loc=0,x_axis_range=[omega_start,omega_end],y_axis_range=[-2.5,1.2],fontsize=16,rotation_x=0,rotation_y=0)
 
     #data_.add_title(plot_index=1,title_name='G0x ',fontsize=20)
 
-    data_.add_axis_label(plot_index=2,x_axis_name=r'$\omega$',y_axis_name=r'Re$\{G_{0 0}\}$',x_label_loc=0,y_label_loc=0,x_axis_range=[0],y_axis_range=[-0.01,0.01],fontsize=16,rotation_x=0,rotation_y=0)
-    data_.add_axis_label(plot_index=4,x_axis_name=r'$\omega$',y_axis_name=r'Im$\{G_{0 0}\}$',x_label_loc=0,y_label_loc=0,x_axis_range=[0],y_axis_range=[0.99,1.01],fontsize=16,rotation_x=0,rotation_y=0)
+    data_.add_axis_label(plot_index=2,x_axis_name=r'$\omega$',y_axis_name=r'Re$\{G_{0 0}\}$',x_label_loc=0,y_label_loc=0,x_axis_range=[omega_start,omega_end],y_axis_range=[-0.5,0.5],fontsize=16,rotation_x=0,rotation_y=0)
+    data_.add_axis_label(plot_index=4,x_axis_name=r'$\omega$',y_axis_name=r'Im$\{G_{0 0}\}$',x_label_loc=0,y_label_loc=0,x_axis_range=[omega_start,omega_end],y_axis_range=[0.5,1.5],fontsize=16,rotation_x=0,rotation_y=0)
 
-    data_.add_axis_label(plot_index=5,x_axis_name=r'$\omega$',y_axis_name=r'Re$\{G_{xx}\}$',x_label_loc=0,y_label_loc=0,x_axis_range=[0],y_axis_range=[-0.01,0.01],fontsize=16,rotation_x=0,rotation_y=0)
-    data_.add_axis_label(plot_index=7,x_axis_name=r'$\omega$',y_axis_name=r'Im$\{G_{xx}\}$',x_label_loc=0,y_label_loc=0,x_axis_range=[0],y_axis_range=[0.99,1.01],fontsize=16,rotation_x=0,rotation_y=0)
+    data_.add_axis_label(plot_index=5,x_axis_name=r'$\omega$',y_axis_name=r'Re$\{G_{xx}\}$',x_label_loc=0,y_label_loc=0,x_axis_range=[omega_start,omega_end],y_axis_range=[-0.5,0.5],fontsize=16,rotation_x=0,rotation_y=0)
+    data_.add_axis_label(plot_index=7,x_axis_name=r'$\omega$',y_axis_name=r'Im$\{G_{xx}\}$',x_label_loc=0,y_label_loc=0,x_axis_range=[omega_start,omega_end],y_axis_range=[0.5,1.5],fontsize=16,rotation_x=0,rotation_y=0)
 
-    data_.add_axis_label(plot_index=6,x_axis_name=r'$\omega$',y_axis_name=r'Re$\{G_{yx}\}$',x_label_loc=0,y_label_loc=0,x_axis_range=[0],y_axis_range=[-0.01,0.01],fontsize=16,rotation_x=0,rotation_y=0)
-    data_.add_axis_label(plot_index=8,x_axis_name=r'$\omega$',y_axis_name=r'Im$\{G_{yx}\}$',x_label_loc=0,y_label_loc=0,x_axis_range=[0],y_axis_range=[0.99,1.01],fontsize=16,rotation_x=0,rotation_y=0)
+    data_.add_axis_label(plot_index=6,x_axis_name=r'$\omega$',y_axis_name=r'Re$\{G_{yx}\}$',x_label_loc=0,y_label_loc=0,x_axis_range=[omega_start,omega_end],y_axis_range=[-0.5,0.5],fontsize=16,rotation_x=0,rotation_y=0)
+    data_.add_axis_label(plot_index=8,x_axis_name=r'$\omega$',y_axis_name=r'Im$\{G_{yx}\}$',x_label_loc=0,y_label_loc=0,x_axis_range=[omega_start,omega_end],y_axis_range=[0.5,1.5],fontsize=16,rotation_x=0,rotation_y=0)
 
-    data_.add_axis_label(plot_index=9,x_axis_name=r'$\omega$',y_axis_name=r'Re$\{G_{0y}\}$',x_label_loc=0,y_label_loc=0,x_axis_range=[0],y_axis_range=[-0.01,0.01],fontsize=16,rotation_x=0,rotation_y=0)
-    data_.add_axis_label(plot_index=11,x_axis_name=r'$\omega$',y_axis_name=r'Im$\{G_{0y}\}$',x_label_loc=0,y_label_loc=0,x_axis_range=[0],y_axis_range=[0.99,1.01],fontsize=16,rotation_x=0,rotation_y=0)
+    data_.add_axis_label(plot_index=9,x_axis_name=r'$\omega$',y_axis_name=r'Re$\{G_{0y}\}$',x_label_loc=0,y_label_loc=0,x_axis_range=[omega_start,omega_end],y_axis_range=[-0.5,0.5],fontsize=16,rotation_x=0,rotation_y=0)
+    data_.add_axis_label(plot_index=11,x_axis_name=r'$\omega$',y_axis_name=r'Im$\{G_{0y}\}$',x_label_loc=0,y_label_loc=0,x_axis_range=[omega_start,omega_end],y_axis_range=[0.5,1.5],fontsize=16,rotation_x=0,rotation_y=0)
 
-    data_.add_axis_label(plot_index=10,x_axis_name=r'$\omega$',y_axis_name=r'Re$\{G_{yy}\}$',x_label_loc=0,y_label_loc=0,x_axis_range=[0],y_axis_range=[-0.01,0.01],fontsize=16,rotation_x=0,rotation_y=0)
-    data_.add_axis_label(plot_index=12,x_axis_name=r'$\omega$',y_axis_name=r'Im$\{G_{yy}\}$',x_label_loc=0,y_label_loc=0,x_axis_range=[0],y_axis_range=[0.99,1.01],fontsize=16,rotation_x=0,rotation_y=0)
+    data_.add_axis_label(plot_index=10,x_axis_name=r'$\omega$',y_axis_name=r'Re$\{G_{yy}\}$',x_label_loc=0,y_label_loc=0,x_axis_range=[omega_start,omega_end],y_axis_range=[-0.5,0.5],fontsize=16,rotation_x=0,rotation_y=0)
+    data_.add_axis_label(plot_index=12,x_axis_name=r'$\omega$',y_axis_name=r'Im$\{G_{yy}\}$',x_label_loc=0,y_label_loc=0,x_axis_range=[omega_start,omega_end],y_axis_range=[0.5,1.5],fontsize=16,rotation_x=0,rotation_y=0)
 
 
 
@@ -122,11 +122,11 @@ for l in range(0,N_J):
 
             #data_.simple_plot(plot_index=2,x_arry=eigen_ref_2[s]*np.ones(len(J_11_arry)),y_arry=J_11_arry,log_scale_x=False,log_scale_y=False,color_t='black',label_name=' ',alpha=1,lw=1)
     file_loc='/'+str(l) 
-    img_loc='/green_scan'
+    img_loc='/green_scan2'
     data_.save_fig(img_loc,200,file_loc)
     data_.close_fig()
 video_series='/w0_'+str(w0)+'_w1_'+str(w1)
-
+img_loc='/green_scan'
 out_loc=path_to_cache+'/videos/'+video_series+'/'
 width=20
 height=20
