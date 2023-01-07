@@ -1,6 +1,7 @@
 cache/images/
 cache/videos/
 cache/data/
+cache/old/
 .vscode/
 __pycache__/
 token.txt

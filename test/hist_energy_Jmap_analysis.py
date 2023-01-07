@@ -18,11 +18,11 @@ from data_ex import *
 root_loc=path_to_cache+'/data'
 N=80
 #V11_arry=np.linspace(0,V11_max,N)
-w0=9
+w0=15
 w1=12
 V_00=0
 V_01=0
-V_11=5
+V_11=0
 J_11_start=0
 J_11_end=30
 J_01_start=0

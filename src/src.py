@@ -468,10 +468,12 @@ class Data_process:
     #def hist_plot(self,plot_index,cl)
 
 
-    def simple_scatter(self,plot_index,x_arry,y_arry,color_t='red',marker='s',log_scale_x=True,log_scale_y=True,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=20,cbar_label='',cbar_=True):
+    def simple_scatter(self,plot_index,x_arry,y_arry,color_t='red',marker='s',log_scale_x=True,log_scale_y=True,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=20,cbar_label='',cbar_=True,color_range=[0]):
         ax_1= self.axes[str(plot_index)]
-        
-        pos=ax_1.scatter(x_arry,y_arry, s=s, c=color_t, marker=marker,cmap='RdBu',zorder=1,label=label_name,alpha=alpha  )
+        if color_range[0]==0:
+            pos=ax_1.scatter(x_arry,y_arry, s=s, c=color_t, marker=marker,cmap='RdBu',zorder=1,label=label_name,alpha=alpha  )
+        else:
+            pos=ax_1.scatter(x_arry,y_arry, s=s, c=color_t, marker=marker,cmap='RdBu',zorder=1,label=label_name,alpha=alpha , vmin=color_range[0], vmax=color_range[1] )
         if add_line:
             ax_1.plot(x_arry,y_arry, c=color_t,zorder=1,alpha=alpha  )
 

@@ -14,6 +14,9 @@ class H_sys:
         A_0= V00-4/3*w
         A_1= V01-1/3*w
         A_2= V11+2/3*w
+        B_0=2*V01+V00-w
+        B_1=2*V01+V11
+        B_2=3*V11+w
         matrix_H=np.array([
         [A_0, -1j*w0, -1j*w0,-1j*w0, -1j*w0, 0, 0, 0, 0],
         [1j*w0, A_1,  J01,-t, 0,-1j*w0, 0,-1j*w0, 0],
@@ -25,6 +28,23 @@ class H_sys:
         [0, 1j*w0, 0, 0, 1j*w0, -t,  J11, A_2,-t],
         [0, 0, 0, 1j*w0, 1j*w0, 0, -t, -t,A_2]])
         self.Val_1=linalg.eig(matrix_H)
+        
+        matrix_2_e_onlyx=np.array([
+            [A_0,-1j*w0,-1j*w0,0],
+            [1j*w0,A_1,J01,-1j*w0],
+            [1j*w0,J01 ,A_1,-1j*w0],
+            [0,1j*w0 ,1j*w0,A_2]
+        ])
+        self.Val_1=linalg.eig(matrix_2_e_onlyx)
+        self.E2_onlyx=self.Val_1
+
+        matrix_1_e_onlyx=np.array([
+            [-2*w/3,-1j*w0],
+            [1j*w0,w/3]
+        ])
+        self.E1_onlyx=linalg.eig(matrix_1_e_onlyx)
+
+
         
 
         matrix_single_e=np.array([
@@ -70,7 +90,7 @@ class H_sys:
         # [0, 0, 1j*w0*0, 1j*w0, 0, -0, 0,   0, 0],
         # [0, 1j*w0, 0, 0, 1j*w0*0, 0,  0, 0,0],
         # [0, 0, 0, 1j*w0, 0, 0, -0, -0,0]])
-        print(matrix_Extend)
+        
         self.Extend=linalg.eig(matrix_Extend)
 
 
@@ -80,9 +100,7 @@ class H_sys:
         #print(matrix_H)
        # print(np.round(self.Val_1[1],2))
         # For three electron 
-        B_0=2*V01+V00-w
-        B_1=2*V01+V11
-        B_2=3*V11+w
+
         matrix_H=np.array([
         [B_0, -t, -1j*w0,0, -1j*w0, 0, -1j*w0, 0, 0],
         [-t, B_0, 0,-1j*w0, -1j*w0,-1j*w0, 0,0, 0],
@@ -94,6 +112,13 @@ class H_sys:
         [0, 0, 1j*w0, 0, 1j*w0, 1j*w0, 0, B_2,-t],
         [0, 0, 0, 1j*w0, 1j*w0, 0, 1j*w0, -t,B_2]])
         self.Val_2=linalg.eig(matrix_H)
+
+        matrix_3_e_onlyx=np.array([
+            [B_0,-1j*w0],
+            [1j*w0,B_1]
+        ])
+        self.Val_2=linalg.eig(matrix_3_e_onlyx)
+        self.E3_onlyx=self.Val_2
      #   print(np.round(self.Val_2[0],2))
      #   print(np.round(self.Val_2[1],2).T)
         sum_val=J01+J11+t
@@ -111,6 +136,30 @@ class H_sys:
         for i in range(0,len(vec_arry)):
             norm_vec_arry.append(self.normalize(vec_arry[i]))
         return np.array(norm_vec_arry)
+
+    def process_eigen(self,eig_sys):
+        inde_arry_E1=np.argsort(eig_sys[0])
+        E1_val=np.round((eig_sys[0][inde_arry_E1]),5)
+        E1_vec=np.round(self.normalize_all_eigen_vec(eig_sys[1].T[inde_arry_E1]),3)
+        return np.round(E1_val-eig_sys[0][np.argmin((np.abs(eig_sys[0])))],3), E1_vec
+    
+    def single_x_system(self):
+        print('1_E_onlyx')
+        E1_val,E1_vec=self.process_eigen(self.E1_onlyx)
+        print(E1_val)
+        print(E1_vec)
+        print('-----')
+        print('2_E_onlyx')
+        E2_val,E2_vec=self.process_eigen(self.E2_onlyx)
+        print(E2_val)
+        print(E2_vec)
+        print('-----')
+        print('3_E_onlyx')
+        E3_val,E3_vec=self.process_eigen(self.E3_onlyx)
+        print(E3_val)
+        print(E3_vec)
+        print('-----')
+
     def get_extend(self):
         inde_arry=np.argsort(self.Extend[0])
         Extend_val=np.round((self.Extend[0][inde_arry]),5)
@@ -121,8 +170,11 @@ class H_sys:
         inde_arry_E1=np.argsort(self.single_e[0])
         E1_val=np.round((self.single_e[0][inde_arry_E1]),5)
         E1_vec=np.round(self.normalize_all_eigen_vec(self.single_e[1].T[inde_arry_E1]),3)
-        print(E1_vec)
+        #print(E1_vec)
         print(np.round(E1_val-self.single_e[0][np.argmin((np.abs(self.single_e[0])))],3))
+        print('1_E_onlyx')
+        E1_val,E1_vec=self.process_eigen(self.E1_onlyx)
+        print(E1_val)
         print('-----')
         print('2_E')
         inde_arry_E2=np.argsort(self.Val_1[0])
@@ -136,6 +188,9 @@ class H_sys:
         E2_vec=np.round(self.normalize_all_eigen_vec(self.E2_spin1[1].T[inde_arry_E2]),3)
         #print(np.round(self.Val_1[0],3))
         print(np.round(E2_val-self.E2_spin1[0][np.argmin((np.abs(self.E2_spin1[0])))],3))
+        print('2_E_onlyx')
+        E2_val,E2_vec=self.process_eigen(self.E2_onlyx)
+        print(E2_val)
         print('-----')
         print('3_E')
         inde_arry_E3=np.argsort(self.Val_2[0])
@@ -203,6 +258,7 @@ class H_sys:
         inde_arry=np.argsort(bare_eignval)
         self.order_eigen_vec_2e=np.round((bare_eignvec.T[inde_arry]),5)
         self.order_eigen_val_2e=np.round((bare_eignval[inde_arry]),5)
+
         self.unique_eigen_val_2e, self.eigen_degen_2e = np.unique(self.order_eigen_val_2e, return_counts=True)
         self.E_opt_1_2e=self.unique_eigen_val_2e[1]-self.unique_eigen_val_2e[0]
         self.binding_energy_2e=-self.E_opt_1_2e+self.w
@@ -215,7 +271,10 @@ class H_sys:
         self.unique_eigen_val_3e, self.eigen_degen_3e = np.unique(self.order_eigen_val_3e, return_counts=True)
         self.E_opt_1_3e=self.unique_eigen_val_3e[1]-self.unique_eigen_val_3e[0]
         self.binding_energy_3e=-self.E_opt_1_3e+self.w
-
+        val_2e_max=np.max(self.unique_eigen_val_2e.real)
+        val_3e_max=np.max(self.unique_eigen_val_3e.real)
+ 
+        self.max_val=np.max([val_2e_max,val_3e_max])
     def get_eigen_coeff(self,sort_eignvec,index):
         index_ = np.nonzero(sort_eignvec[index])
 
@@ -453,17 +512,38 @@ class H_sys:
         return G0x_real_arry, G0x_imag_arry,G0y_real_arry, G0y_imag_arry,G00_real_arry, G00_imag_arry,Gxx_real_arry, Gxx_imag_arry,Gyy_real_arry, Gyy_imag_arry,Gyx_real_arry, Gyx_imag_arry, omega_arry
     def get_first_two_eigen_info(self):
         info_vector=[self.w,self.w0,self.V00,self.V11,self.J01,self.J11]
-        
-        E_opt_1_2e=self.unique_eigen_val_2e[1]-self.unique_eigen_val_2e[0]
-        E_opt_2_2e=self.unique_eigen_val_2e[2]-self.unique_eigen_val_2e[0]
-        E_opt_1_3e=self.unique_eigen_val_3e[1]-self.unique_eigen_val_3e[0]
-        E_opt_2_3e=self.unique_eigen_val_3e[2]-self.unique_eigen_val_3e[0]
+        E_opt_1_2e=self.order_eigen_val_2e[1]-self.order_eigen_val_2e[0]
+        E_opt_2_2e=self.order_eigen_val_2e[2]-self.order_eigen_val_2e[0]
+        E_opt_1_3e=self.order_eigen_val_3e[1]-self.order_eigen_val_3e[0]
+        E_opt_2_3e=self.order_eigen_val_3e[2]-self.order_eigen_val_3e[0]
         info_vector.append(E_opt_1_2e.real)
         info_vector.append(E_opt_2_2e.real)
         info_vector.append(E_opt_1_3e.real)
         info_vector.append(E_opt_2_3e.real)
  
         return info_vector
+
+    def get_first_two_eigen_info_onlyx(self,unique_=False):
+
+        info_vector=[self.w,self.w0,self.V00,self.V11,self.J01,self.J11]
+        E_opt_1_2e=self.order_eigen_val_2e[1]-self.order_eigen_val_2e[0]
+        #print(E_opt_1_2e)
+        E_opt_2_2e=self.order_eigen_val_2e[2]-self.order_eigen_val_2e[0]
+        E_opt_1_3e=self.order_eigen_val_3e[1]-self.order_eigen_val_3e[0]
+        E_opt_2_3e=E_opt_1_3e#self.order_eigen_val_3e[2]-self.order_eigen_val_3e[0]
+        if unique_:
+            E_opt_1_2e=self.unique_eigen_val_2e[1]-self.unique_eigen_val_2e[0]
+            #print(E_opt_1_2e)
+            E_opt_2_2e=self.unique_eigen_val_2e[2]-self.unique_eigen_val_2e[0]
+            E_opt_1_3e=self.unique_eigen_val_3e[1]-self.unique_eigen_val_3e[0]
+            E_opt_2_3e=E_opt_1_3e
+        info_vector.append(E_opt_1_2e.real)
+        info_vector.append(E_opt_2_2e.real)
+        info_vector.append(E_opt_1_3e.real)
+        info_vector.append(E_opt_2_3e.real)
+ 
+        return info_vector
+
     def print_info_2e(self,print_=True,print_vector=True,print_coeff=True,bare_vec=True):
         if print_: 
             print('Two Electrons--------------')

@@ -14,7 +14,7 @@ path_to_cache = os.path.join(path_this_script_splitted[0], 'cache')
 
 from data_ex import *
 from sweep_energy import *
-V11=0
+V11=10
 
 V00=0
 V01=0
@@ -24,19 +24,16 @@ J11=0
 
 t=0
 w1=12
-w0=9
+w0=3
 H=H_sys(V00,V01,V11,J01,J11,t,w0,w1)
 smooth_2e_val,smooth_3e_val=H.energy_level(low_energy_reso=0.1)
-H.print_info_2e(print_=True,print_vector=False,print_coeff=False,bare_vec=True)
+#H.print_info_2e(print_=True,print_vector=True,print_coeff=False,bare_vec=True)
 #H.print_info_3e(print_=True,print_vector=True,print_coeff=False,bare_vec=True)
-info_vector1=H.get_first_two_eigen_info()
-join_info=np.concatenate((info_vector1, info_vector1[6::]), axis=0)
- 
-save(array=np.array(join_info),append_=True,data_file='text.csv')
-#print(H.normalize((Eig_1+Eig_2)))
-H.get_extend()
-H.get_extion_info()
 
+#print(H.normalize((Eig_1+Eig_2)))
+#H.get_extend()
+#H.get_extion_info()
+H.single_x_system()
 # In[ ]:
 
 

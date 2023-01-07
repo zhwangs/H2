@@ -18,11 +18,11 @@ from data_ex import *
 root_loc=path_to_cache+'/data'
 N=80
 #V11_arry=np.linspace(0,V11_max,N)
-w0=9
+w0=15
 w1=12
 V_00=0
 V_01=0
-V_11=5
+V_11=0
 J_11_start=0
 J_11_end=30
 J_01_start=0
@@ -54,7 +54,7 @@ data_.add_axis_label(plot_index=4,x_axis_name=r'$J_{01}$',y_axis_name=r'$J_{11}$
 data_.add_title(plot_index=4,title_name='(3e) Second Excited State Energy ',fontsize=20)
  
 
-
+ 
 data_.simple_scatter(plot_index=1,x_arry=J01,y_arry=J11,color_t= ex_with_J_2e[:,0] ,marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=30,cbar_label='Energy')
 data_.simple_scatter(plot_index=2,x_arry=J01,y_arry=J11,color_t=ex_with_J_2e[:,1],marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=30,cbar_label='Energy')
 data_.simple_scatter(plot_index=3,x_arry=J01,y_arry=J11,color_t=ex_with_J_3e[:,0],marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=30,cbar_label='Energy')
