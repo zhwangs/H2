@@ -18,16 +18,16 @@ from data_ex import *
 root_loc=path_to_cache+'/data'
 N=80
 #V11_arry=np.linspace(0,V11_max,N)
-w0=0.1
+w0=4
 w1=4
 V_00=0
 V_01=0
 V_11=0
 J11=0
 V_00_start=0
-V_00_end=10
+V_00_end=15
 J_01_start=0
-J_01_end=10
+J_01_end=15
 file_loc='/onlyx_spectrum_w0_'+str(w0)+'_w1_'+str(w1) 
 try:
     os.mkdir(root_loc+file_loc)
@@ -132,31 +132,31 @@ for k in tqdm(range(0,N_sample), desc="Sampling"):
     zero_val=ex_without_J_2e[:,0][numb_]-0.1
 
 
-    width=20
-    height=30
-    data_=Data_process(row_num=3,column_num=2,root_dir=root_loc,width=width,height=height,letter=False)
-    data_.fig_title(fig_name='Cyan Line: C-B=0, \n Black Line: A=0\n'+r'$\omega_0$: '+str(w0)+r', $\omega_1$: '+str(w1)+', V11 :'+str(np.round(V_11,2)),title_size=30)
+    width=33
+    height=20
+    data_=Data_process(row_num=2,column_num=3,root_dir=root_loc,width=width,height=height,letter=False)
+    data_.fig_title(fig_name='Green Line: C-B=0, \n Black Line: A=0\n'+r'$\omega_0$: '+str(w0)+r', $\omega_1$: '+str(w1)+', V11 :'+str(np.round(V_11,2)),title_size=30)
     data_.add_axis_label(plot_index=1,x_axis_name=r'$J_{01}$',y_axis_name=r'$V_{00}$',x_label_loc=0,y_label_loc=0,x_axis_range=[0],y_axis_range=[0],fontsize=16,rotation_x=0,rotation_y=0)
     data_.add_title(plot_index=1,title_name='(2e) Exciton Binding Energy A',fontsize=20)
-    data_.add_axis_label(plot_index=2,x_axis_name=r'$J_{01}$',y_axis_name=r'$V_{00}$',x_label_loc=0,y_label_loc=0,x_axis_range=[0],y_axis_range=[0],fontsize=16,rotation_x=0,rotation_y=0)
-    data_.add_title(plot_index=2,title_name='(2e) Excition-Exciton Energy B',fontsize=20)
     data_.add_axis_label(plot_index=3,x_axis_name=r'$J_{01}$',y_axis_name=r'$V_{00}$',x_label_loc=0,y_label_loc=0,x_axis_range=[0],y_axis_range=[0],fontsize=16,rotation_x=0,rotation_y=0)
-    data_.add_title(plot_index=3,title_name='(3e) Exciton Binding Energy C',fontsize=20)
+    data_.add_title(plot_index=3,title_name='(2e) Excition-Exciton Energy B',fontsize=20)
     data_.add_axis_label(plot_index=4,x_axis_name=r'$J_{01}$',y_axis_name=r'$V_{00}$',x_label_loc=0,y_label_loc=0,x_axis_range=[0],y_axis_range=[0],fontsize=16,rotation_x=0,rotation_y=0)
-    data_.add_title(plot_index=4,title_name=' Difference: C(3e)-B(2e)',fontsize=20)
+    data_.add_title(plot_index=4,title_name='(3e) Exciton Binding Energy C',fontsize=20)
+    data_.add_axis_label(plot_index=6,x_axis_name=r'$J_{01}$',y_axis_name=r'$V_{00}$',x_label_loc=0,y_label_loc=0,x_axis_range=[0],y_axis_range=[0],fontsize=16,rotation_x=0,rotation_y=0)
+    data_.add_title(plot_index=6,title_name=' Difference: C(3e)-B(2e)',fontsize=20)
     
 
     color_range=[-5,5]
   #  data_.simple_scatter(plot_index=1,x_arry=J01_grid,y_arry=V00_grid,color_t=A_grid,marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=30,cbar_label='Energy',color_range=color_range)
     data_.simple_contour(plot_index=1,x_arry=J01_grid,y_arry=V00_grid,z_arry=A_grid,color_t='black',log_scale_x=False,log_scale_y=False,label_name=' ',alpha=0.3,lw=8,num_of_levels=[zero_val])
-    data_.simple_contour(plot_index=2,x_arry=J01_grid,y_arry=V00_grid,z_arry=A_grid,color_t='black',log_scale_x=False,log_scale_y=False,label_name=' ',alpha=0.3,lw=8,num_of_levels=[zero_val])
     data_.simple_contour(plot_index=3,x_arry=J01_grid,y_arry=V00_grid,z_arry=A_grid,color_t='black',log_scale_x=False,log_scale_y=False,label_name=' ',alpha=0.3,lw=8,num_of_levels=[zero_val])
     data_.simple_contour(plot_index=4,x_arry=J01_grid,y_arry=V00_grid,z_arry=A_grid,color_t='black',log_scale_x=False,log_scale_y=False,label_name=' ',alpha=0.3,lw=8,num_of_levels=[zero_val])
+    data_.simple_contour(plot_index=6,x_arry=J01_grid,y_arry=V00_grid,z_arry=A_grid,color_t='black',log_scale_x=False,log_scale_y=False,label_name=' ',alpha=0.3,lw=8,num_of_levels=[zero_val])
 
     data_.simple_contour_color(plot_index=1,x_arry=J01_grid,y_arry=V00_grid,z_arry=A_grid,log_scale_x=False,log_scale_y=False,alpha=1,cbar_=True,cmap='RdBu',cbar_label='')
-    data_.simple_contour_color(plot_index=2,x_arry=J01_grid,y_arry=V00_grid,z_arry=B_grid,log_scale_x=False,log_scale_y=False,alpha=1,cbar_=True,cmap='RdBu',cbar_label='')
-    data_.simple_contour_color(plot_index=3,x_arry=J01_grid,y_arry=V00_grid,z_arry=C_grid,log_scale_x=False,log_scale_y=False,alpha=1,cbar_=True,cmap='RdBu',cbar_label='')
-    data_.simple_contour_color(plot_index=4,x_arry=J01_grid,y_arry=V00_grid,z_arry=D_grid,log_scale_x=False,log_scale_y=False,alpha=1,cbar_=True,cmap='RdBu',cbar_label='',color_range=[-5,5])
+    data_.simple_contour_color(plot_index=3,x_arry=J01_grid,y_arry=V00_grid,z_arry=B_grid,log_scale_x=False,log_scale_y=False,alpha=1,cbar_=True,cmap='RdBu',cbar_label='')
+    data_.simple_contour_color(plot_index=4,x_arry=J01_grid,y_arry=V00_grid,z_arry=C_grid,log_scale_x=False,log_scale_y=False,alpha=1,cbar_=True,cmap='RdBu',cbar_label='')
+    data_.simple_contour_color(plot_index=6,x_arry=J01_grid,y_arry=V00_grid,z_arry=D_grid,log_scale_x=False,log_scale_y=False,alpha=1,cbar_=True,cmap='RdBu',cbar_label='',color_range=[-5,5])
 
     #data_.simple_scatter(plot_index=1,x_arry=J01,y_arry=V00,color_t=A,marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=30,cbar_label='Energy',color_range=color_range)
     #data_.simple_scatter(plot_index=2,x_arry=J01,y_arry=V00,color_t=B,marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=30,cbar_label='Energy',color_range=color_range)
@@ -186,10 +186,10 @@ for k in tqdm(range(0,N_sample), desc="Sampling"):
     #data_.simple_plot(plot_index=4,x_arry=xnew,y_arry=y_smooth,color_t='cyan',log_scale_x=False,log_scale_y=False,label_name=' ',alpha=0.8,lw=2)
 
 
-    data_.simple_scatter(plot_index=4,x_arry=x,y_arry=y,color_t='seagreen',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.5,add_line=False,s=30,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=6,x_arry=x,y_arry=y,color_t='seagreen',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.5,add_line=False,s=30,cbar_label='Energy',cbar_=False)
 
     # setup subplots 
-    sub_axis_arry,sub_axis_arry_index=data_.add_subplot_sub_non_uniform_grid_row(plot_index=5,size_x_array=[4,1,4,1,4,1,4],y_ratio_array=[0,0.2,0.05,0.2,0.05,0.2,0.05,0.2])
+    sub_axis_arry,sub_axis_arry_index=data_.add_subplot_sub_non_uniform_grid_row(plot_index=2,size_x_array=[4,1,4,1,4,1,4],y_ratio_array=[0,0.2,0.05,0.2,0.05,0.2,0.05,0.2])
 #    data_.axis_off(plot_index=5)
 #    data_.axis_off(plot_index=sub_axis_arry_index[4])
 #    data_.axis_off(plot_index=sub_axis_arry_index[9])
@@ -217,10 +217,10 @@ for k in tqdm(range(0,N_sample), desc="Sampling"):
 
     data_.add_x_ticks(plot_index=sub_axis_arry_index[1],x_ticks_range=sample_J01_arry,density=20)
 
-    data_.simple_scatter(plot_index=sub_axis_arry_index[5],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,4].real**2,color_t='orange',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.2,add_line=False,s=65,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[5],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,7].real**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=0.5,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[5],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,5].real**2,color_t='blue',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.5,add_line=False,s=10,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[5],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,6].real**2,color_t='cyan',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=65,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[5],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,4].real**2,color_t='orange',marker='s',log_scale_x=False,log_scale_y=False,label_name=r'$0\uparrow$,$0\downarrow$',twinx=False,alpha=0.2,add_line=False,s=65,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[5],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,7].real**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=r'$x\uparrow$,$x\downarrow$',twinx=False,alpha=1,add_line=False,s=0.5,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[5],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,5].real**2,color_t='blue',marker='s',log_scale_x=False,log_scale_y=False,label_name=r'$x\uparrow$,$0\downarrow$',twinx=False,alpha=0.5,add_line=False,s=10,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[5],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,6].real**2,color_t='cyan',marker='s',log_scale_x=False,log_scale_y=False,label_name=r'$0\uparrow$,$x\downarrow$',twinx=False,alpha=0.1,add_line=False,s=65,cbar_label='Energy',cbar_=False)
 
     data_.add_x_ticks(plot_index=sub_axis_arry_index[5],x_ticks_range=sample_J01_arry,density=20)
 
@@ -327,20 +327,25 @@ for k in tqdm(range(0,N_sample), desc="Sampling"):
     data_.hline(plot_index=1,y0=np.round(V_00_arry[entangle_sample_V00_index],2),x_min=J_01_start,x_max=J_01_end,color='white',linewidth=2)
     data_.vline(plot_index=1,x0=np.round(J01_arry[entangle_sample_J01_index],2),y_min=V_00_start,y_max=V_00_end,color='white',linewidth=2)
 
-    data_.hline(plot_index=2,y0=np.round(V_00_arry[entangle_sample_V00_index],2),x_min=J_01_start,x_max=J_01_end,color='white',linewidth=2)
-    data_.vline(plot_index=2,x0=np.round(J01_arry[entangle_sample_J01_index],2),y_min=V_00_start,y_max=V_00_end,color='white',linewidth=2)
     data_.hline(plot_index=3,y0=np.round(V_00_arry[entangle_sample_V00_index],2),x_min=J_01_start,x_max=J_01_end,color='white',linewidth=2)
     data_.vline(plot_index=3,x0=np.round(J01_arry[entangle_sample_J01_index],2),y_min=V_00_start,y_max=V_00_end,color='white',linewidth=2)
     data_.hline(plot_index=4,y0=np.round(V_00_arry[entangle_sample_V00_index],2),x_min=J_01_start,x_max=J_01_end,color='white',linewidth=2)
     data_.vline(plot_index=4,x0=np.round(J01_arry[entangle_sample_J01_index],2),y_min=V_00_start,y_max=V_00_end,color='white',linewidth=2)
+    data_.hline(plot_index=6,y0=np.round(V_00_arry[entangle_sample_V00_index],2),x_min=J_01_start,x_max=J_01_end,color='white',linewidth=2)
+    data_.vline(plot_index=6,x0=np.round(J01_arry[entangle_sample_J01_index],2),y_min=V_00_start,y_max=V_00_end,color='white',linewidth=2)
 
-
+    data_.show_legend(plot_index=sub_axis_arry_index[5],loc='upper left', bbox_to_anchor=(-0.9, 4.2),fontsize=15)
+    data_.add_text(plot_index=sub_axis_arry_index[0],x=-1*np.max(sample_J01_arry),y=0,s=r'$|\Omega_0>\rightarrow $: ',bg_color='white',fontsize=20, alpha=0.5)
+    data_.add_text(plot_index=sub_axis_arry_index[5],x=-1*np.max(sample_J01_arry),y=0,s=r'$|\mathrm{Ex}_1>\rightarrow $: ',bg_color='white',fontsize=20, alpha=0.5)
+    data_.add_text(plot_index=sub_axis_arry_index[10],x=-1*np.max(sample_J01_arry),y=0,s=r'$|\mathrm{Ex}_2>\rightarrow $: ',bg_color='white',fontsize=20, alpha=0.5)
+    data_.add_text(plot_index=sub_axis_arry_index[15],x=-1*np.max(sample_J01_arry),y=0,s=r'$|\mathrm{Ex}_3>\rightarrow $: ',bg_color='white',fontsize=20, alpha=0.5)
+ 
 # For three Electrons
 
-    sub_axis_arry,sub_axis_arry_index=data_.add_subplot_sub_non_uniform_grid_row(plot_index=6,size_x_array=[4,1,4],y_ratio_array=[0,0.45,0.05,0.45])
+    sub_axis_arry,sub_axis_arry_index=data_.add_subplot_sub_non_uniform_grid_row(plot_index=5,size_x_array=[4,1,4],y_ratio_array=[0,0.45,0.05,0.45])
 
-    data_.simple_scatter(plot_index=sub_axis_arry_index[0],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_3e[:,0].real**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=0.5,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[0],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_3e[:,1].real**2,color_t='blue',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.5,add_line=False,s=10,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[0],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_3e[:,0].real**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=r'$0\uparrow$,$0\downarrow$,$x\uparrow$ ',twinx=False,alpha=1,add_line=False,s=0.5,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[0],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_3e[:,1].real**2,color_t='blue',marker='s',log_scale_x=False,log_scale_y=False,label_name=r'$0\uparrow$,$x\downarrow$,$x\uparrow$ ',twinx=False,alpha=0.5,add_line=False,s=10,cbar_label='Energy',cbar_=False)
     data_.simple_scatter(plot_index=sub_axis_arry_index[1],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_3e[:,0].imag**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=0.5,cbar_label='Energy',cbar_=False)
     data_.simple_scatter(plot_index=sub_axis_arry_index[1],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_3e[:,1].imag**2,color_t='blue',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.5,add_line=False,s=10,cbar_label='Energy',cbar_=False)
 
@@ -381,7 +386,12 @@ for k in tqdm(range(0,N_sample), desc="Sampling"):
     data_.add_title(plot_index=sub_axis_arry_index[6],title_name=r'at $V_{00}=$'+str(np.round(V_00_arry[entangle_sample_V00_index],2)),fontsize=20)
     data_.add_title(plot_index=sub_axis_arry_index[7],title_name='(3e) Re/Im, ',fontsize=20)
     data_.add_title(plot_index=sub_axis_arry_index[8],title_name=r'at $J_{01}=$'+str(np.round(J01_arry[entangle_sample_J01_index],2)),fontsize=20)
+    data_.add_title(plot_index=2,title_name=r'(2e) State Coefficients',fontsize=20)
+    data_.add_title(plot_index=5,title_name=r'(3e) State Coefficients',fontsize=20)
     
+    data_.show_legend(plot_index=sub_axis_arry_index[0],loc='upper left', bbox_to_anchor=(-0.9, 2.5),fontsize=15)
+    data_.add_text(plot_index=sub_axis_arry_index[0],x=-1*np.max(sample_J01_arry),y=0,s=r'$|\Omega_0>\rightarrow $: ',bg_color='white',fontsize=20, alpha=0.5)
+    data_.add_text(plot_index=sub_axis_arry_index[5],x=-1*np.max(sample_J01_arry),y=0,s=r'$|\mathrm{Ex}_1>\rightarrow $: ',bg_color='white',fontsize=20, alpha=0.5)
 
     data_.save_fig(out_dir,200,str(k))
     data_.close_fig()
