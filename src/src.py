@@ -7,6 +7,8 @@ import shutil
 import matplotlib.pyplot as plt
 import os
 import cv2 
+from scipy.interpolate import make_interp_spline, BSpline
+from scipy.interpolate import griddata
 
 class Data_process:
     ''' Process the gmesh file into data array, and export into a .dat format'''
@@ -142,6 +144,7 @@ class Data_process:
     def add_subplot_sub_non_uniform_grid_row(self,plot_index,size_x_array=[2,2],y_ratio_array=[0,0.6,0.4]):
         # size_x_array indicates the number of axis in each row, and y_ratio_array represents the size_ratio between each row (the ratio array should sum to 1, first term must be 0)
         ax_1= self.axes[str(plot_index)]
+        self.axis_off(plot_index=plot_index)
         size_y=len(size_x_array)
         sub_axis_arry=[]
         sub_axis_arry_index=[]
@@ -151,11 +154,13 @@ class Data_process:
             size_inv_x=1/size_x
             current_y_loc=current_y_loc+y_ratio_array[j]
             for i in range(0,size_x):
-                print(i*size_inv_x)
+              #  print(i*size_inv_x)
                 subax=self.add_subplot_axes(ax=ax_1,rect=[i*size_inv_x,current_y_loc,size_inv_x,y_ratio_array[j+1]],axisbg='white',axis_on=False,bg_off=False)
                 sub_axis_arry_index.append(len(self.axes))
                 sub_axis_arry.append(subax)
                 self.axes[str(len(self.axes))]=subax
+        for i in range(len(sub_axis_arry_index)):
+            self.axis_off(plot_index=sub_axis_arry_index[i])
                 #self.axes.append(subax)
         return sub_axis_arry,sub_axis_arry_index
 
@@ -353,6 +358,10 @@ class Data_process:
     def remove_x_ticks(self,plot_index=1):
         ax_1= self.axes[str(plot_index)]
         ax_1.set_xticks([])
+    def remove_y_ticks(self,plot_index=1):
+        ax_1= self.axes[str(plot_index)]
+        ax_1.set_yticks([])
+
     def move_x_ticks(self,plot_index=1,position='bottom'):
         ax_1= self.axes[str(plot_index)]
         if position=='bottom':
@@ -376,11 +385,13 @@ class Data_process:
        # ax_1.set_facecolor('pink')
     def axis_off(self,plot_index):
         ax_1= self.axes[str(plot_index)]
-        ax_1.axis('off')
+       # ax_1.axis('off')
         ax_1.grid(False)
         #plt.axis('off')
         ax_1.set_xticks([])
         ax_1.set_yticks([])
+
+
         #ax_1.set(facecolor = "white")
     def fig_size(self,w,h):
         self.fig.set_size_inches(w, h)
@@ -468,6 +479,15 @@ class Data_process:
     #def hist_plot(self,plot_index,cl)
 
 
+    def add_x_ticks(self,plot_index,x_ticks_range=[],density=25):
+        ax1= self.axes[str(plot_index)]
+        ax1.set_xticks(x_ticks_range[::density])
+        ax1.set(xticklabels=np.round(x_ticks_range[::density],1))
+    #    ax1.xaxis.set_tick_params(labeltop=True)
+    #    ax1.xaxis.tick_top()
+        ax1.grid('on')
+        ax1.xaxis.set_label_position('bottom') 
+
     def simple_scatter(self,plot_index,x_arry,y_arry,color_t='red',marker='s',log_scale_x=True,log_scale_y=True,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=20,cbar_label='',cbar_=True,color_range=[0]):
         ax_1= self.axes[str(plot_index)]
         if color_range[0]==0:
@@ -497,3 +517,30 @@ class Data_process:
             ax_1.set_xscale('log')
         #ax_1.legend(loc='upper right', bbox_to_anchor=(1, 1))
  
+    def simple_contour(self,plot_index,x_arry,y_arry,z_arry,color_t='red',log_scale_x=True,log_scale_y=True,label_name=' ',alpha=0.1,lw=1,num_of_levels=10):
+        ax_1= self.axes[str(plot_index)]
+        CS=ax_1.contour(x_arry,y_arry,z_arry,levels=num_of_levels,linewidths=lw,colors=color_t,linestyle='dashed',alpha=alpha,label=label_name)
+        if log_scale_y:
+            ax_1.set_yscale('log')
+        if log_scale_x:
+            ax_1.set_xscale('log')
+        #plt.clabel(CS, inline=1, fontsize=10)
+
+
+    def simple_contour_color(self,plot_index,x_arry,y_arry,z_arry,log_scale_x=True,log_scale_y=True,alpha=0.1,cbar_=True,cmap=10,cbar_label='',color_range=[0]):
+        ax_1= self.axes[str(plot_index)]
+        if color_range[0]==0:
+            pos=ax_1.contourf(x_arry,y_arry,z_arry,cmap=cmap,alpha=alpha,levels=550)
+        else:
+            pos=ax_1.contourf(x_arry,y_arry,z_arry,cmap=cmap,alpha=alpha, vmin=color_range[0], vmax=color_range[1],levels=150)
+
+
+        if log_scale_y:
+            ax_1.set_yscale('log')
+        if log_scale_x:
+            ax_1.set_xscale('log')
+        if cbar_:
+            cbar=self.fig.colorbar(pos,ax=ax_1)
+            cbar.ax.tick_params(labelsize=8)
+            cbar.ax.xaxis.set_ticks_position("top")
+            cbar.ax.set_title(cbar_label,fontsize=8)

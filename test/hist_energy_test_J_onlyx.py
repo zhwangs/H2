@@ -37,7 +37,7 @@ for i in tqdm (range (0,N), desc="Process"):
     eigen_ref_3=eigen_ref_3-np.min(eigen_ref_3)
  
     J_01_start=0
-    J_01_end=5
+    J_01_end=10
     gaussian_broadening=0.05
    # trial_run=5
     J_01_arry,E__2e_J01,E__3e_J01,Hist_2e_01,Hist_3e_01,Hit_arry=energy_sweep_J01_onlyx(w0,w1,J_01_start,J_01_end,V_11,V_00,V_01,J11,bin_density=1000,low_energy_reso=0.05,density=1000,gaussian_broadening=gaussian_broadening)
@@ -50,7 +50,8 @@ for i in tqdm (range (0,N), desc="Process"):
     width=20
     height=10
     data_=Data_process(row_num=1,column_num=2,root_dir=root_loc,width=width,height=height,letter=False)
-    
+    data_.fig_title(fig_name=r'$\omega_0$: '+str(w0)+r', $\omega_1$: '+str(w1)+', V11 :'+str(np.round(V_11,2)),title_size=30)
+
     data_.add_axis_label(plot_index=1,x_axis_name=r'Energies',y_axis_name=r'$J_{01}$',x_label_loc=0,y_label_loc=0,x_axis_range=[0],y_axis_range=[0],fontsize=16,rotation_x=0,rotation_y=0)
     data_.add_title(plot_index=1,title_name='(2e) Energy Spectrum ',fontsize=20)
     data_.p_plot(plot_index=1,x=Hit_arry,y=J_01_arry,cl=Hist_2e_01,cbar_label='Intensity',vmin=0,vmax=3,type=0)

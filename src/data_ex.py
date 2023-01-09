@@ -279,6 +279,10 @@ class H_sys:
         index_ = np.nonzero(sort_eignvec[index])
 
         return sort_eignvec[index][index_], index_
+    
+    def return_eigen_vec_all(self):
+        return np.around(self.order_eigen_vec_2e,2), np.around(self.order_eigen_vec_3e,2)
+
     def return_eigen_vec(self,index=0):
         return np.around(self.order_eigen_vec_2e,4)[index]
     def normalize(self,vec):
@@ -565,22 +569,28 @@ class H_sys:
         if print_vector:
             print('eigen_vectors')
             if bare_vec:
-                print(np.around(self.order_eigen_vec_2e,4))
+                for i in range(0,len(self.order_eigen_vec_2e)):
+                    print(np.around(self.order_eigen_vec_2e[i],4))
             else:
                 print(self.mag_2e)
                 print(self.phase_angle_2e)
             print('eigen_values')
-            if bare_vec:
-                print(np.around(self.order_eigen_val_2e,4))
-            else:
-                print(self.mag_2e_val)
-                print(self.phase_angle_2e_val)
+ 
 
         if print_coeff:
             print('eigen_vector Coeff')
             print(self.coeff_2e)
             print('eigen_vector Index')
             print(self.coeff_index_2e)
+    def eigen_vec_all(self,print_=False):
+        if print_:
+            print('-----2e-------')
+            for i in range(0,len(self.order_eigen_vec_2e)):
+                print(np.around(self.order_eigen_vec_2e[i],4))
+            print('-----3e-------')
+            for i in range(0,len(self.order_eigen_vec_3e)):
+                print(np.around(self.order_eigen_vec_3e[i],4))
+        return np.around(self.order_eigen_vec_2e,6), np.around(self.order_eigen_vec_3e,6)
     def mag_phase_eigen_vector(self):
         real_part=self.order_eigen_vec_2e.real
         imag_part=self.order_eigen_vec_2e.imag
@@ -623,16 +633,13 @@ class H_sys:
         if print_vector:
             print('eigen_vectors')
             if bare_vec:
-                print(np.around(self.order_eigen_vec_3e,4))
+                for i in range(0,len(self.order_eigen_vec_3e)):
+                    print(np.around(self.order_eigen_vec_3e[i],4))
             else:
                 print(self.mag_3e)
                 print(self.phase_angle_3e)
             print('eigen_values')
-            if bare_vec:
-                print(np.around(self.order_eigen_val_3e,4))
-            else:
-                print(self.mag_3e_val)
-                print(self.phase_angle_3e_val)
+
         if print_coeff:
             print('eigen_vector Coeff')
             print(self.coeff_3e)

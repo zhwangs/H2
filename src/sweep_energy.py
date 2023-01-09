@@ -218,7 +218,15 @@ def energy_eigen_map_onlyx(w0,w1,J01,V11,V00,V01,J11):
     H=H_sys(V00,V01,V11,J01,J11,t,w0,w1)
     info_vector1=H.get_first_two_eigen_info_onlyx()
 
-    return info_vector1
+    return info_vector1 
+
+def energy_eigen_entangle_onlyx(w0,w1,J01,V11,V00,V01,J11):
+    t=0
+    H=H_sys(V00,V01,V11,J01,J11,t,w0,w1)
+    Eign_2e,Eign_3e=H.eigen_vec_all()
+
+    return Eign_2e.flatten(),Eign_3e.flatten()
+
 
 def save(array,append_=True,data_file='peak_data.csv'):
     if append_:
