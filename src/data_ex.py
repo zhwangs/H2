@@ -583,6 +583,15 @@ class H_sys:
             print('eigen_vector Index')
             print(self.coeff_index_2e)
     def eigen_vec_all(self,print_=False):
+        zero_index_val=np.around(self.order_eigen_vec_2e[:,0].imag,6)
+        for i in range(0,len(self.order_eigen_vec_2e)):
+            if zero_index_val[i]!=0:
+                self.order_eigen_vec_2e[i]=self.order_eigen_vec_2e[i]*1j
+        zero_index_val=np.around(self.order_eigen_vec_3e[:,0].imag,6)
+        for i in range(0,len(self.order_eigen_vec_3e)):
+            if zero_index_val[i]!=0:
+                self.order_eigen_vec_3e[i]=self.order_eigen_vec_3e[i]*1j
+
         if print_:
             print('-----2e-------')
             for i in range(0,len(self.order_eigen_vec_2e)):

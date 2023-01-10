@@ -16,10 +16,10 @@ from data_ex import *
 from sweep_energy import *
 V11=0
 
-V00=0.1#2.848101265822785
+V00=9#2.848101265822785
 V01=0
 
-J01=0.1
+J01=0 
 J11=0
 
 t=0

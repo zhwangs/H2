@@ -18,7 +18,7 @@ from data_ex import *
 root_loc=path_to_cache+'/data'
 N=80
 #V11_arry=np.linspace(0,V11_max,N)
-w0=1.2
+w0=2
 w1=4
 V_00=0
 V_01=0
@@ -34,7 +34,7 @@ try:
 except:
     shutil.rmtree(root_loc+file_loc)
     os.mkdir(root_loc+file_loc)
-out_dir=file_loc+'_img'
+out_dir=file_loc+'_img_2'
 try:
     os.mkdir(root_loc+out_dir)
 except:
@@ -43,13 +43,13 @@ except:
 V_00_arry=np.linspace(V_00_start,V_00_end,N)
 J01_arry=np.linspace(J_01_start,J_01_end,N)
  
-N_sample=40
+N_sample=60
 _start=0
-_end=6
+_end=15
 arry=np.linspace(_start,_end,N_sample)
 
-entangle_sample_V00_index=0
-entangle_sample_J01_index=0
+entangle_sample_V00_index=15
+entangle_sample_J01_index=15
 
 
 
@@ -131,7 +131,7 @@ for k in tqdm(range(0,N_sample), desc="Sampling"):
 
 
     #k_min=ex_with_J_2e[:,0][ex_with_J_2e[:,0]<0.01]
-    numb_=(ex_with_J_2e[:,0]<0.01).nonzero()[0][0]
+    numb_=(ex_with_J_2e[:,0]<1).nonzero()[0][0]
     zero_val=ex_without_J_2e[:,0][numb_]-0.1
 
 
@@ -151,6 +151,7 @@ for k in tqdm(range(0,N_sample), desc="Sampling"):
 
     color_range=[-5,5]
   #  data_.simple_scatter(plot_index=1,x_arry=J01_grid,y_arry=V00_grid,color_t=A_grid,marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=30,cbar_label='Energy',color_range=color_range)
+    J01_grid,V00_grid=np.meshgrid(J01_grid,V00_grid)
     data_.simple_contour(plot_index=1,x_arry=J01_grid,y_arry=V00_grid,z_arry=A_grid,color_t='black',log_scale_x=False,log_scale_y=False,label_name=' ',alpha=0.3,lw=8,num_of_levels=[zero_val])
     data_.simple_contour(plot_index=3,x_arry=J01_grid,y_arry=V00_grid,z_arry=A_grid,color_t='black',log_scale_x=False,log_scale_y=False,label_name=' ',alpha=0.3,lw=8,num_of_levels=[zero_val])
     data_.simple_contour(plot_index=4,x_arry=J01_grid,y_arry=V00_grid,z_arry=A_grid,color_t='black',log_scale_x=False,log_scale_y=False,label_name=' ',alpha=0.3,lw=8,num_of_levels=[zero_val])
@@ -338,10 +339,10 @@ for k in tqdm(range(0,N_sample), desc="Sampling"):
     data_.vline(plot_index=6,x0=np.round(J01_arry[entangle_sample_J01_index],2),y_min=V_00_start,y_max=V_00_end,color='white',linewidth=2)
 
     data_.show_legend(plot_index=sub_axis_arry_index[5],loc='upper left', bbox_to_anchor=(-0.9, 4.2),fontsize=15)
-    data_.add_text(plot_index=sub_axis_arry_index[0],x=-1*np.max(sample_J01_arry),y=0,s=r'$|\Omega_0>\rightarrow $: ',bg_color='white',fontsize=20, alpha=0.5)
-    data_.add_text(plot_index=sub_axis_arry_index[5],x=-1*np.max(sample_J01_arry),y=0,s=r'$|\mathrm{Ex}_1>\rightarrow $: ',bg_color='white',fontsize=20, alpha=0.5)
-    data_.add_text(plot_index=sub_axis_arry_index[10],x=-1*np.max(sample_J01_arry),y=0,s=r'$|\mathrm{Ex}_2>\rightarrow $: ',bg_color='white',fontsize=20, alpha=0.5)
-    data_.add_text(plot_index=sub_axis_arry_index[15],x=-1*np.max(sample_J01_arry),y=0,s=r'$|\mathrm{Ex}_3>\rightarrow $: ',bg_color='white',fontsize=20, alpha=0.5)
+    data_.add_text(plot_index=sub_axis_arry_index[0],x=2*J_01_start-1*np.max(sample_J01_arry),y=0,s=r'$|\Omega_0>\rightarrow $: ',bg_color='white',fontsize=20, alpha=0.5)
+    data_.add_text(plot_index=sub_axis_arry_index[5],x=2*J_01_start-1*np.max(sample_J01_arry),y=0,s=r'$|\mathrm{Ex}_1>\rightarrow $: ',bg_color='white',fontsize=20, alpha=0.5)
+    data_.add_text(plot_index=sub_axis_arry_index[10],x=2*J_01_start-1*np.max(sample_J01_arry),y=0,s=r'$|\mathrm{Ex}_2>\rightarrow $: ',bg_color='white',fontsize=20, alpha=0.5)
+    data_.add_text(plot_index=sub_axis_arry_index[15],x=2*J_01_start-1*np.max(sample_J01_arry),y=0,s=r'$|\mathrm{Ex}_3>\rightarrow $: ',bg_color='white',fontsize=20, alpha=0.5)
     for s in range(0,len(sub_axis_arry_index)):
         if s==4 or s==9 or s==14:
             pass
@@ -350,6 +351,7 @@ for k in tqdm(range(0,N_sample), desc="Sampling"):
             data_.hline(plot_index=sub_axis_arry_index[s],y0=0.25,x_min=J_01_start,x_max=J_01_end,color='gray',linewidth=1,alpha=0.5)
             data_.hline(plot_index=sub_axis_arry_index[s],y0=0.5,x_min=J_01_start,x_max=J_01_end,color='gray',linewidth=1,alpha=0.5)
             data_.hline(plot_index=sub_axis_arry_index[s],y0=0.75,x_min=J_01_start,x_max=J_01_end,color='gray',linewidth=1,alpha=0.5)
+            data_.hline(plot_index=sub_axis_arry_index[s],y0=1,x_min=J_01_start,x_max=J_01_end,color='gray',linewidth=1,alpha=0.5)
 
 
 # For three Electrons
@@ -402,8 +404,8 @@ for k in tqdm(range(0,N_sample), desc="Sampling"):
     data_.add_title(plot_index=5,title_name=r'(3e) State Coefficients',fontsize=20)
     
     data_.show_legend(plot_index=sub_axis_arry_index[0],loc='upper left', bbox_to_anchor=(-0.9, 2.5),fontsize=15)
-    data_.add_text(plot_index=sub_axis_arry_index[0],x=-1*np.max(sample_J01_arry),y=0,s=r'$|\Omega_0>\rightarrow $: ',bg_color='white',fontsize=20, alpha=0.5)
-    data_.add_text(plot_index=sub_axis_arry_index[5],x=-1*np.max(sample_J01_arry),y=0,s=r'$|\mathrm{Ex}_1>\rightarrow $: ',bg_color='white',fontsize=20, alpha=0.5)
+    data_.add_text(plot_index=sub_axis_arry_index[0],x=2*J_01_start-1*np.max(sample_J01_arry),y=0,s=r'$|\Omega_0>\rightarrow $: ',bg_color='white',fontsize=20, alpha=0.5)
+    data_.add_text(plot_index=sub_axis_arry_index[5],x=2*J_01_start-1*np.max(sample_J01_arry),y=0,s=r'$|\mathrm{Ex}_1>\rightarrow $: ',bg_color='white',fontsize=20, alpha=0.5)
 
     for s in range(0,len(sub_axis_arry_index)):
         if s==4 or s==9 or s==14:
@@ -413,6 +415,7 @@ for k in tqdm(range(0,N_sample), desc="Sampling"):
             data_.hline(plot_index=sub_axis_arry_index[s],y0=0.25,x_min=V_00_start,x_max=V_00_end,color='gray',linewidth=1,alpha=0.5)
             data_.hline(plot_index=sub_axis_arry_index[s],y0=0.5,x_min=V_00_start,x_max=V_00_end,color='gray',linewidth=1,alpha=0.5)
             data_.hline(plot_index=sub_axis_arry_index[s],y0=0.75,x_min=V_00_start,x_max=V_00_end,color='gray',linewidth=1,alpha=0.5)
+            data_.hline(plot_index=sub_axis_arry_index[s],y0=1,x_min=J_01_start,x_max=J_01_end,color='gray',linewidth=1,alpha=0.5)
 
     data_.save_fig(out_dir,200,str(k))
     data_.close_fig()

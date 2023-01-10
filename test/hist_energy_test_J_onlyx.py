@@ -16,10 +16,10 @@ from tqdm import tqdm
 from data_ex import *
 
 root_loc=path_to_cache+'/images'
-V11_max=10
+V11_max=30
 N=80
 V11_arry=np.linspace(0,V11_max,N)
-w0=0.1
+w0=1
 w1=4
 V_00=0
 V_01=0
