@@ -306,17 +306,17 @@ class Data_process:
             ax_1.set_yscale('log')
             ax_1.set_xscale('log')
         
-    def hline(self,plot_index,y0,x_min,x_max,color='red',linewidth=2):
+    def hline(self,plot_index,y0,x_min,x_max,color='red',linewidth=2,alpha=0.6):
         x=np.linspace(x_min,x_max,500)
         y0=y0*np.ones(x.shape)
         ax_1= self.axes[str(plot_index)]
-        ax_1.plot(x,y0,'--',linewidth=linewidth,color=color)
+        ax_1.plot(x,y0,'--',linewidth=linewidth,color=color,alpha=alpha)
 
-    def vline(self,plot_index,x0,y_min,y_max,color='red',linewidth=2):
+    def vline(self,plot_index,x0,y_min,y_max,color='red',linewidth=2,alpha=0.6):
         y=np.linspace(y_min,y_max,100)
         x0=x0*np.ones(y.shape)
         ax_1= self.axes[str(plot_index)]
-        ax_1.scatter(x0,y,marker='s',s=linewidth,color=color)
+        ax_1.scatter(x0,y,marker='s',s=linewidth,color=color,alpha=alpha)
     def add_text(self,plot_index,x,y,s,bg_color='white',fontsize=20, alpha=0.5):
         ax_1= self.axes[str(plot_index)]
         ax_1.text(x, y, s, bbox=dict(facecolor=bg_color, alpha=alpha,edgecolor='none'), fontsize=fontsize)
@@ -486,7 +486,12 @@ class Data_process:
     #    ax1.xaxis.set_tick_params(labeltop=True)
     #    ax1.xaxis.tick_top()
         ax1.grid('on')
+
+        #ax1.set_yticks(x_ticks_range[::density])
+        #ax1.yaxis.grid(True)
+        #plt.grid(True)
         ax1.xaxis.set_label_position('bottom') 
+        #ax1.xaxis.grid(True)
 
     def simple_scatter(self,plot_index,x_arry,y_arry,color_t='red',marker='s',log_scale_x=True,log_scale_y=True,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=20,cbar_label='',cbar_=True,color_range=[0]):
         ax_1= self.axes[str(plot_index)]

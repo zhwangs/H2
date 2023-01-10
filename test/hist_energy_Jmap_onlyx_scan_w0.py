@@ -18,17 +18,17 @@ from data_ex import *
 root_loc=path_to_cache+'/data'
 N=80
 #V11_arry=np.linspace(0,V11_max,N)
-w0=1.2
+w0=1
 w1=4
 V_00=0
 V_01=0
-V_11=0
+V_11=1
 J11=0
 V_00_start=0
-V_00_end=15
+V_00_end=30
 J_01_start=0
-J_01_end=15
-file_loc='/onlyx_spectrum_w0_'+str(w0)+'_w1_'+str(w1) 
+J_01_end=30
+file_loc='/onlyx_spectrum_V11_'+str(V_11)+'_w1_'+str(w1) 
 try:
     os.mkdir(root_loc+file_loc)
 except:
@@ -45,11 +45,11 @@ J01_arry=np.linspace(J_01_start,J_01_end,N)
  
 N_sample=40
 _start=0
-_end=6
+_end=10
 arry=np.linspace(_start,_end,N_sample)
 
-entangle_sample_V00_index=0
-entangle_sample_J01_index=0
+entangle_sample_V00_index=15
+entangle_sample_J01_index=15
 
 
 
@@ -57,7 +57,7 @@ entangle_sample_J01_index=0
 
 
 for k in tqdm(range(0,N_sample), desc="Sampling"):
-    V_11=arry[k]
+    w0=np.round(arry[k],2)
     sample_V00_arry=[]
     sample_J01_arry=[]
     entangle_sample_V00_arry_2e=[]
@@ -110,7 +110,7 @@ for k in tqdm(range(0,N_sample), desc="Sampling"):
 
     J01=arr[:,4]
     V00=arr[:,2]
-    V_11=arry[k]
+    #V_11=arry[k]
     ex_with_J_2e=arr[:,6:8]
     ex_with_J_3e=arr[:,8:10]
     ex_without_J_2e=arr[:,10:12]
@@ -131,7 +131,7 @@ for k in tqdm(range(0,N_sample), desc="Sampling"):
 
 
     #k_min=ex_with_J_2e[:,0][ex_with_J_2e[:,0]<0.01]
-    numb_=(ex_with_J_2e[:,0]<0.01).nonzero()[0][0]
+    numb_=(ex_with_J_2e[:,0]<0.1).nonzero()[0][0]
     zero_val=ex_without_J_2e[:,0][numb_]-0.1
 
 
@@ -207,58 +207,58 @@ for k in tqdm(range(0,N_sample), desc="Sampling"):
 #    data_.simple_scatter(plot_index=sub_axis_arry_index[1],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,0].imag**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False ,label_name=' ',twinx=False,alpha=1,add_line=False,s=10,cbar_label='Energy',cbar_=False)
 
 #    data_.simple_scatter(plot_index=6,x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,1].real**2,color_t='blue',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.5,add_line=False,s=10,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[0],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,0].real**2,color_t='orange',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.2,add_line=False,s=65,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[0],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,3].real**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=0.5,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[0],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,0].real**2,color_t='orange',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.2,add_line=False,s=60,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[0],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,3].real**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=1,cbar_label='Energy',cbar_=False)
     data_.simple_scatter(plot_index=sub_axis_arry_index[0],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,1].real**2,color_t='blue',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.5,add_line=False,s=10,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[0],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,2].real**2,color_t='cyan',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=65,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[0],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,2].real**2,color_t='cyan',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=60,cbar_label='Energy',cbar_=False)
     data_.add_x_ticks(plot_index=sub_axis_arry_index[0],x_ticks_range=sample_J01_arry,density=20)
 
-    data_.simple_scatter(plot_index=sub_axis_arry_index[1],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,0].imag**2,color_t='orange',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.2,add_line=False,s=65,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[1],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,3].imag**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=0.5,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[1],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,0].imag**2,color_t='orange',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.2,add_line=False,s=60,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[1],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,3].imag**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=1,cbar_label='Energy',cbar_=False)
     data_.simple_scatter(plot_index=sub_axis_arry_index[1],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,1].imag**2,color_t='blue',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.5,add_line=False,s=10,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[1],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,2].imag**2,color_t='cyan',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=65,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[1],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,2].imag**2,color_t='cyan',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.2,add_line=False,s=60,cbar_label='Energy',cbar_=False)
 
     data_.add_x_ticks(plot_index=sub_axis_arry_index[1],x_ticks_range=sample_J01_arry,density=20)
 
-    data_.simple_scatter(plot_index=sub_axis_arry_index[5],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,4].real**2,color_t='orange',marker='s',log_scale_x=False,log_scale_y=False,label_name=r'$0\uparrow$,$0\downarrow$',twinx=False,alpha=0.2,add_line=False,s=65,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[5],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,7].real**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=r'$x\uparrow$,$x\downarrow$',twinx=False,alpha=1,add_line=False,s=0.5,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[5],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,4].real**2,color_t='orange',marker='s',log_scale_x=False,log_scale_y=False,label_name=r'$0\uparrow$,$0\downarrow$',twinx=False,alpha=0.2,add_line=False,s=60,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[5],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,7].real**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=r'$x\uparrow$,$x\downarrow$',twinx=False,alpha=1,add_line=False,s=1,cbar_label='Energy',cbar_=False)
     data_.simple_scatter(plot_index=sub_axis_arry_index[5],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,5].real**2,color_t='blue',marker='s',log_scale_x=False,log_scale_y=False,label_name=r'$x\uparrow$,$0\downarrow$',twinx=False,alpha=0.5,add_line=False,s=10,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[5],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,6].real**2,color_t='cyan',marker='s',log_scale_x=False,log_scale_y=False,label_name=r'$0\uparrow$,$x\downarrow$',twinx=False,alpha=0.1,add_line=False,s=65,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[5],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,6].real**2,color_t='cyan',marker='s',log_scale_x=False,log_scale_y=False,label_name=r'$0\uparrow$,$x\downarrow$',twinx=False,alpha=0.1,add_line=False,s=60,cbar_label='Energy',cbar_=False)
 
     data_.add_x_ticks(plot_index=sub_axis_arry_index[5],x_ticks_range=sample_J01_arry,density=20)
 
-    data_.simple_scatter(plot_index=sub_axis_arry_index[6],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,4].imag**2,color_t='orange',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.2,add_line=False,s=65,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[6],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,7].imag**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=0.5,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[6],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,4].imag**2,color_t='orange',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.2,add_line=False,s=60,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[6],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,7].imag**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=1,cbar_label='Energy',cbar_=False)
     data_.simple_scatter(plot_index=sub_axis_arry_index[6],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,5].imag**2,color_t='blue',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.5,add_line=False,s=10,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[6],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,6].imag**2,color_t='cyan',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=65,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[6],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,6].imag**2,color_t='cyan',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=60,cbar_label='Energy',cbar_=False)
 
     data_.add_x_ticks(plot_index=sub_axis_arry_index[6],x_ticks_range=sample_J01_arry,density=20)
 
-    data_.simple_scatter(plot_index=sub_axis_arry_index[10],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,8].real**2,color_t='orange',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.2,add_line=False,s=65,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[10],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,11].real**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=0.5,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[10],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,8].real**2,color_t='orange',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.2,add_line=False,s=60,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[10],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,11].real**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=1,cbar_label='Energy',cbar_=False)
     data_.simple_scatter(plot_index=sub_axis_arry_index[10],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,9].real**2,color_t='blue',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.5,add_line=False,s=10,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[10],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,10].real**2,color_t='cyan',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=65,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[10],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,10].real**2,color_t='cyan',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=60,cbar_label='Energy',cbar_=False)
 
 
     data_.add_x_ticks(plot_index=sub_axis_arry_index[10],x_ticks_range=sample_J01_arry,density=20)
 
-    data_.simple_scatter(plot_index=sub_axis_arry_index[11],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,8].imag**2,color_t='orange',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.2,add_line=False,s=65,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[11],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,11].imag**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=0.5,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[11],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,8].imag**2,color_t='orange',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.2,add_line=False,s=60,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[11],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,11].imag**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=1,cbar_label='Energy',cbar_=False)
     data_.simple_scatter(plot_index=sub_axis_arry_index[11],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,9].imag**2,color_t='blue',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.5,add_line=False,s=10,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[11],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,10].imag**2,color_t='cyan',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=65,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[11],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,10].imag**2,color_t='cyan',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=60,cbar_label='Energy',cbar_=False)
 
     data_.add_x_ticks(plot_index=sub_axis_arry_index[11],x_ticks_range=sample_J01_arry,density=20)
 
-    data_.simple_scatter(plot_index=sub_axis_arry_index[15],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,12].real**2,color_t='orange',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.2,add_line=False,s=65,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[15],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,15].real**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=0.5,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[15],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,12].real**2,color_t='orange',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.2,add_line=False,s=60,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[15],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,15].real**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=1,cbar_label='Energy',cbar_=False)
     data_.simple_scatter(plot_index=sub_axis_arry_index[15],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,13].real**2,color_t='blue',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.5,add_line=False,s=10,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[15],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,14].real**2,color_t='cyan',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=65,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[15],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,14].real**2,color_t='cyan',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=60,cbar_label='Energy',cbar_=False)
     data_.add_x_ticks(plot_index=sub_axis_arry_index[15],x_ticks_range=sample_J01_arry,density=20)
 
-    data_.simple_scatter(plot_index=sub_axis_arry_index[16],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,12].imag**2,color_t='orange',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.2,add_line=False,s=65,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[16],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,15].imag**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=0.5,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[16],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,12].imag**2,color_t='orange',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.2,add_line=False,s=60,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[16],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,15].imag**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=1,cbar_label='Energy',cbar_=False)
     data_.simple_scatter(plot_index=sub_axis_arry_index[16],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,13].imag**2,color_t='blue',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.5,add_line=False,s=10,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[16],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,14].imag**2,color_t='cyan',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=65,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[16],x_arry=sample_J01_arry,y_arry=entangle_sample_J01_arry_2e[:,14].imag**2,color_t='cyan',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=60,cbar_label='Energy',cbar_=False)
 
     data_.add_x_ticks(plot_index=sub_axis_arry_index[16],x_ticks_range=sample_J01_arry,density=20)
     data_.add_title(plot_index=sub_axis_arry_index[15],title_name='(2e) Re/Im, ',fontsize=20)
@@ -270,52 +270,52 @@ for k in tqdm(range(0,N_sample), desc="Sampling"):
 
 
 # Vary V00
-    data_.simple_scatter(plot_index=sub_axis_arry_index[2],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,0].real**2,color_t='orange',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.2,add_line=False,s=65,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[2],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,3].real**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=0.5,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[2],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,0].real**2,color_t='orange',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.2,add_line=False,s=60,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[2],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,3].real**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=1,cbar_label='Energy',cbar_=False)
     data_.simple_scatter(plot_index=sub_axis_arry_index[2],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,1].real**2,color_t='blue',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.5,add_line=False,s=10,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[2],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,2].real**2,color_t='cyan',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=65,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[2],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,2].real**2,color_t='cyan',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=60,cbar_label='Energy',cbar_=False)
     data_.add_x_ticks(plot_index=sub_axis_arry_index[2],x_ticks_range=sample_V00_arry,density=20)
 
-    data_.simple_scatter(plot_index=sub_axis_arry_index[3],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,0].imag**2,color_t='orange',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.2,add_line=False,s=65,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[3],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,3].imag**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=0.5,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[3],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,0].imag**2,color_t='orange',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.2,add_line=False,s=60,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[3],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,3].imag**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=1,cbar_label='Energy',cbar_=False)
     data_.simple_scatter(plot_index=sub_axis_arry_index[3],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,1].imag**2,color_t='blue',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.5,add_line=False,s=10,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[3],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,2].imag**2,color_t='cyan',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=65,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[3],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,2].imag**2,color_t='cyan',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=60,cbar_label='Energy',cbar_=False)
     data_.add_x_ticks(plot_index=sub_axis_arry_index[3],x_ticks_range=sample_V00_arry,density=20)
 
-    data_.simple_scatter(plot_index=sub_axis_arry_index[7],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,4].real**2,color_t='orange',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.2,add_line=False,s=65,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[7],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,7].real**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=0.5,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[7],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,4].real**2,color_t='orange',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.2,add_line=False,s=60,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[7],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,7].real**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=1,cbar_label='Energy',cbar_=False)
     data_.simple_scatter(plot_index=sub_axis_arry_index[7],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,5].real**2,color_t='blue',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.5,add_line=False,s=10,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[7],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,6].real**2,color_t='cyan',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=65,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[7],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,6].real**2,color_t='cyan',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=60,cbar_label='Energy',cbar_=False)
     data_.add_x_ticks(plot_index=sub_axis_arry_index[7],x_ticks_range=sample_V00_arry,density=20)
 
-    data_.simple_scatter(plot_index=sub_axis_arry_index[8],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,4].imag**2,color_t='orange',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.2,add_line=False,s=65,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[8],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,7].imag**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=0.5,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[8],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,4].imag**2,color_t='orange',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.2,add_line=False,s=60,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[8],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,7].imag**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=1,cbar_label='Energy',cbar_=False)
     data_.simple_scatter(plot_index=sub_axis_arry_index[8],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,5].imag**2,color_t='blue',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.5,add_line=False,s=10,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[8],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,6].imag**2,color_t='cyan',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=65,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[8],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,6].imag**2,color_t='cyan',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=60,cbar_label='Energy',cbar_=False)
     data_.add_x_ticks(plot_index=sub_axis_arry_index[8],x_ticks_range=sample_V00_arry,density=20)
 
-    data_.simple_scatter(plot_index=sub_axis_arry_index[12],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,8].real**2,color_t='orange',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.2,add_line=False,s=65,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[12],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,11].real**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=0.5,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[12],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,8].real**2,color_t='orange',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.2,add_line=False,s=60,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[12],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,11].real**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=1,cbar_label='Energy',cbar_=False)
     data_.simple_scatter(plot_index=sub_axis_arry_index[12],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,9].real**2,color_t='blue',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.5,add_line=False,s=10,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[12],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,10].real**2,color_t='cyan',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=65,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[12],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,10].real**2,color_t='cyan',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=60,cbar_label='Energy',cbar_=False)
     data_.add_x_ticks(plot_index=sub_axis_arry_index[12],x_ticks_range=sample_V00_arry,density=20)
 
-    data_.simple_scatter(plot_index=sub_axis_arry_index[13],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,8].imag**2,color_t='orange',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.2,add_line=False,s=65,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[13],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,11].imag**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=0.5,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[13],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,8].imag**2,color_t='orange',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.2,add_line=False,s=60,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[13],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,11].imag**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=1,cbar_label='Energy',cbar_=False)
     data_.simple_scatter(plot_index=sub_axis_arry_index[13],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,9].imag**2,color_t='blue',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.5,add_line=False,s=10,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[13],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,10].imag**2,color_t='cyan',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=65,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[13],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,10].imag**2,color_t='cyan',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=60,cbar_label='Energy',cbar_=False)
     data_.add_x_ticks(plot_index=sub_axis_arry_index[13],x_ticks_range=sample_V00_arry,density=20)
 
-    data_.simple_scatter(plot_index=sub_axis_arry_index[17],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,12].real**2,color_t='orange',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.2,add_line=False,s=65,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[17],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,15].real**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=0.5,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[17],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,12].real**2,color_t='orange',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.2,add_line=False,s=60,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[17],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,15].real**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=1,cbar_label='Energy',cbar_=False)
     data_.simple_scatter(plot_index=sub_axis_arry_index[17],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,13].real**2,color_t='blue',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.5,add_line=False,s=10,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[17],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,14].real**2,color_t='cyan',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=65,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[17],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,14].real**2,color_t='cyan',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=60,cbar_label='Energy',cbar_=False)
     data_.add_x_ticks(plot_index=sub_axis_arry_index[17],x_ticks_range=sample_V00_arry,density=20)
 
-    data_.simple_scatter(plot_index=sub_axis_arry_index[18],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,12].imag**2,color_t='orange',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.2,add_line=False,s=65,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[18],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,15].imag**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=0.5,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[18],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,12].imag**2,color_t='orange',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.2,add_line=False,s=60,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[18],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,15].imag**2,color_t='red',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=1,cbar_label='Energy',cbar_=False)
     data_.simple_scatter(plot_index=sub_axis_arry_index[18],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,13].imag**2,color_t='blue',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.5,add_line=False,s=10,cbar_label='Energy',cbar_=False)
-    data_.simple_scatter(plot_index=sub_axis_arry_index[18],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,14].imag**2,color_t='cyan',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=65,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=sub_axis_arry_index[18],x_arry=sample_V00_arry,y_arry=entangle_sample_V00_arry_2e[:,14].imag**2,color_t='cyan',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.1,add_line=False,s=60,cbar_label='Energy',cbar_=False)
     data_.add_x_ticks(plot_index=sub_axis_arry_index[18],x_ticks_range=sample_V00_arry,density=20)
 
 
@@ -324,6 +324,14 @@ for k in tqdm(range(0,N_sample), desc="Sampling"):
     data_.add_axis_label(plot_index=sub_axis_arry_index[2],x_axis_name=r'$V_{00}$',y_axis_name=r'',x_label_loc=0,y_label_loc=0,x_axis_range=[0],y_axis_range=[0],fontsize=16,rotation_x=0,rotation_y=0)
     data_.add_axis_label(plot_index=sub_axis_arry_index[3],x_axis_name=r'$V_{00}$',y_axis_name=r'',x_label_loc=0,y_label_loc=0,x_axis_range=[0],y_axis_range=[0],fontsize=16,rotation_x=0,rotation_y=0)
 
+    for s in range(0,len(sub_axis_arry_index)):
+        if s==4 or s==9 or s==14:
+            pass
+        else:
+            data_.add_axis_label(plot_index=sub_axis_arry_index[s],x_axis_name=r'',y_axis_name=r'',x_label_loc=0,y_label_loc=0,x_axis_range=[0],y_axis_range=[-0.1,1.1],fontsize=16,rotation_x=0,rotation_y=0)
+            data_.hline(plot_index=sub_axis_arry_index[s],y0=0.25,x_min=J_01_start,x_max=J_01_end,color='gray',linewidth=1,alpha=0.5)
+            data_.hline(plot_index=sub_axis_arry_index[s],y0=0.5,x_min=J_01_start,x_max=J_01_end,color='gray',linewidth=1,alpha=0.5)
+            data_.hline(plot_index=sub_axis_arry_index[s],y0=0.75,x_min=J_01_start,x_max=J_01_end,color='gray',linewidth=1,alpha=0.5)
 
 
 
@@ -342,16 +350,7 @@ for k in tqdm(range(0,N_sample), desc="Sampling"):
     data_.add_text(plot_index=sub_axis_arry_index[5],x=-1*np.max(sample_J01_arry),y=0,s=r'$|\mathrm{Ex}_1>\rightarrow $: ',bg_color='white',fontsize=20, alpha=0.5)
     data_.add_text(plot_index=sub_axis_arry_index[10],x=-1*np.max(sample_J01_arry),y=0,s=r'$|\mathrm{Ex}_2>\rightarrow $: ',bg_color='white',fontsize=20, alpha=0.5)
     data_.add_text(plot_index=sub_axis_arry_index[15],x=-1*np.max(sample_J01_arry),y=0,s=r'$|\mathrm{Ex}_3>\rightarrow $: ',bg_color='white',fontsize=20, alpha=0.5)
-    for s in range(0,len(sub_axis_arry_index)):
-        if s==4 or s==9 or s==14:
-            pass
-        else:
-            data_.add_axis_label(plot_index=sub_axis_arry_index[s],x_axis_name=r'',y_axis_name=r'',x_label_loc=0,y_label_loc=0,x_axis_range=[0],y_axis_range=[-0.1,1.1],fontsize=16,rotation_x=0,rotation_y=0)
-            data_.hline(plot_index=sub_axis_arry_index[s],y0=0.25,x_min=J_01_start,x_max=J_01_end,color='gray',linewidth=1,alpha=0.5)
-            data_.hline(plot_index=sub_axis_arry_index[s],y0=0.5,x_min=J_01_start,x_max=J_01_end,color='gray',linewidth=1,alpha=0.5)
-            data_.hline(plot_index=sub_axis_arry_index[s],y0=0.75,x_min=J_01_start,x_max=J_01_end,color='gray',linewidth=1,alpha=0.5)
-
-
+ 
 # For three Electrons
 
     sub_axis_arry,sub_axis_arry_index=data_.add_subplot_sub_non_uniform_grid_row(plot_index=5,size_x_array=[4,1,4],y_ratio_array=[0,0.45,0.05,0.45])
@@ -404,7 +403,6 @@ for k in tqdm(range(0,N_sample), desc="Sampling"):
     data_.show_legend(plot_index=sub_axis_arry_index[0],loc='upper left', bbox_to_anchor=(-0.9, 2.5),fontsize=15)
     data_.add_text(plot_index=sub_axis_arry_index[0],x=-1*np.max(sample_J01_arry),y=0,s=r'$|\Omega_0>\rightarrow $: ',bg_color='white',fontsize=20, alpha=0.5)
     data_.add_text(plot_index=sub_axis_arry_index[5],x=-1*np.max(sample_J01_arry),y=0,s=r'$|\mathrm{Ex}_1>\rightarrow $: ',bg_color='white',fontsize=20, alpha=0.5)
-
     for s in range(0,len(sub_axis_arry_index)):
         if s==4 or s==9 or s==14:
             pass
@@ -414,14 +412,15 @@ for k in tqdm(range(0,N_sample), desc="Sampling"):
             data_.hline(plot_index=sub_axis_arry_index[s],y0=0.5,x_min=V_00_start,x_max=V_00_end,color='gray',linewidth=1,alpha=0.5)
             data_.hline(plot_index=sub_axis_arry_index[s],y0=0.75,x_min=V_00_start,x_max=V_00_end,color='gray',linewidth=1,alpha=0.5)
 
+
     data_.save_fig(out_dir,200,str(k))
     data_.close_fig()
 
-video_series='/heatmap_w0'+str(w0)+'_w1_'+str(w1)
+video_series='/heatmap_V11_'+str(V_11)+'_w1_'+str(w1)
 
 out_loc=path_to_cache+'/videos/'+video_series+'/'
 width=20
 height=20
 data_=Data_process(row_num=2,column_num=2,root_dir=root_loc,width=width,height=height,letter=False)
 data_.rebuild_dir(file_loc=out_loc)
-data_.videos(img_loc=root_loc+out_dir,out_loc=out_loc,out_file_name='w0'+str(w0)+'_w1_'+str(w1)+'_N_'+str(N_sample)+'.mp4',N=N_sample)
+data_.videos(img_loc=root_loc+out_dir,out_loc=out_loc,out_file_name='V11_'+str(V_11)+'_w1_'+str(w1)+'_N_'+str(N_sample)+'.mp4',N=N_sample)
