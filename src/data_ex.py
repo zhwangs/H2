@@ -31,8 +31,8 @@ class H_sys:
         
         matrix_2_e_onlyx=np.array([
             [A_0,-1j*w0,-1j*w0,0],
-            [1j*w0,A_1,J01,-1j*w0],
-            [1j*w0,J01 ,A_1,-1j*w0],
+            [1j*w0,A_1,-J01,-1j*w0],
+            [1j*w0,-J01 ,A_1,-1j*w0],
             [0,1j*w0 ,1j*w0,A_2]
         ])
         self.Val_1=linalg.eig(matrix_2_e_onlyx)
@@ -260,8 +260,7 @@ class H_sys:
         self.order_eigen_val_2e=np.round((bare_eignval[inde_arry]),5)
 
         self.unique_eigen_val_2e, self.eigen_degen_2e = np.unique(self.order_eigen_val_2e, return_counts=True)
-        self.E_opt_1_2e=self.unique_eigen_val_2e[1]-self.unique_eigen_val_2e[0]
-        self.binding_energy_2e=-self.E_opt_1_2e+self.w
+ 
 
         bare_eignval=self.Val_2[0]
         bare_eignvec=self.Val_2[1]
@@ -269,8 +268,7 @@ class H_sys:
         self.order_eigen_vec_3e=np.round((bare_eignvec.T[inde_arry]),5)
         self.order_eigen_val_3e=np.round((bare_eignval[inde_arry]),5)
         self.unique_eigen_val_3e, self.eigen_degen_3e = np.unique(self.order_eigen_val_3e, return_counts=True)
-        self.E_opt_1_3e=self.unique_eigen_val_3e[1]-self.unique_eigen_val_3e[0]
-        self.binding_energy_3e=-self.E_opt_1_3e+self.w
+ 
         val_2e_max=np.max(self.unique_eigen_val_2e.real)
         val_3e_max=np.max(self.unique_eigen_val_3e.real)
  
@@ -527,20 +525,28 @@ class H_sys:
  
         return info_vector
 
-    def get_first_two_eigen_info_onlyx(self,unique_=False):
+    def get_first_two_eigen_info_onlyx(self):
 
         info_vector=[self.w,self.w0,self.V00,self.V11,self.J01,self.J11]
-        E_opt_1_2e=self.order_eigen_val_2e[1]-self.order_eigen_val_2e[0]
-        #print(E_opt_1_2e)
-        E_opt_2_2e=self.order_eigen_val_2e[2]-self.order_eigen_val_2e[0]
+        g_vec_coeff_check=np.abs(self.order_eigen_vec_2e[0][0].real)
+        if g_vec_coeff_check>0.5:
+            E_opt_1_2e=self.order_eigen_val_2e[2]-self.order_eigen_val_2e[0]
+            E_opt_2_2e=self.order_eigen_val_2e[-1]-self.order_eigen_val_2e[0]
+        else:
+            E_opt_1_2e=self.order_eigen_val_2e[2]-self.order_eigen_val_2e[1]
+            E_opt_2_2e=self.order_eigen_val_2e[-1]-self.order_eigen_val_2e[1]
+        # print(g_vec_coeff_check)
+        # print(E_opt_1_2e)
+        # print(E_opt_2_2e)
+
         E_opt_1_3e=self.order_eigen_val_3e[1]-self.order_eigen_val_3e[0]
         E_opt_2_3e=E_opt_1_3e#self.order_eigen_val_3e[2]-self.order_eigen_val_3e[0]
-        if unique_:
-            E_opt_1_2e=self.unique_eigen_val_2e[1]-self.unique_eigen_val_2e[0]
-            #print(E_opt_1_2e)
-            E_opt_2_2e=self.unique_eigen_val_2e[2]-self.unique_eigen_val_2e[0]
-            E_opt_1_3e=self.unique_eigen_val_3e[1]-self.unique_eigen_val_3e[0]
-            E_opt_2_3e=E_opt_1_3e
+        # if unique_:
+        #     E_opt_1_2e=self.unique_eigen_val_2e[2]-self.unique_eigen_val_2e[0]
+        #     #print(E_opt_1_2e)
+        #     E_opt_2_2e=self.unique_eigen_val_2e[-1]-self.unique_eigen_val_2e[0]
+        #     E_opt_1_3e=self.unique_eigen_val_3e[1]-self.unique_eigen_val_3e[0]
+        #     E_opt_2_3e=E_opt_1_3e
         info_vector.append(E_opt_1_2e.real)
         info_vector.append(E_opt_2_2e.real)
         info_vector.append(E_opt_1_3e.real)
@@ -595,10 +601,16 @@ class H_sys:
         if print_:
             print('-----2e-------')
             for i in range(0,len(self.order_eigen_vec_2e)):
+                print('-----')
+                print(np.around(self.order_eigen_val_2e[i],2))
                 print(np.around(self.order_eigen_vec_2e[i],4))
+                print('-----')
             print('-----3e-------')
             for i in range(0,len(self.order_eigen_vec_3e)):
+                print('-----')
+                print(np.around(self.order_eigen_val_3e[i],2))
                 print(np.around(self.order_eigen_vec_3e[i],4))
+                print('-----')
         return np.around(self.order_eigen_vec_2e,6), np.around(self.order_eigen_vec_3e,6)
     def mag_phase_eigen_vector(self):
         real_part=self.order_eigen_vec_2e.real
@@ -749,7 +761,7 @@ class H_sys:
             self.enriched_3e_val=self.enriched_3e_val+self.gaussian(current_noise_mean,bin_array,gaussian_broadening)
         return self.enriched_2e_val, self.enriched_3e_val
     def energy_gaussian(self,bin_density=100,gaussian_broadening=100):
-        bin_size=np.linspace(-0.5*self.w,3.5*self.w, bin_density) 
+        bin_size=np.linspace(-0.5*self.w, 3.5*self.w, bin_density) 
         enriched_hist_2e,enriched_hist_3e=self.gaussian_enrich(bin_array=bin_size,gaussian_broadening=gaussian_broadening)
 
         return enriched_hist_2e,enriched_hist_3e,bin_size

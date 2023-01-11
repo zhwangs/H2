@@ -451,7 +451,7 @@ class Data_process:
         ax1.xaxis.tick_top()
         ax1.xaxis.set_label_position('top') 
         
-    def p_plot(self,plot_index,x,y,cl,cbar_label='',vmin=0,vmax=1,type=0):#  orientation=, anchor=(0, 0.3), shrink=0.7, pad=0.2,cbar_label=''
+    def p_plot(self,plot_index,x,y,cl,cbar_label='',vmin=0,vmax=1,type=0,cbar_=True):#  orientation=, anchor=(0, 0.3), shrink=0.7, pad=0.2,cbar_label=''
         ax1= self.axes[str(plot_index)]
         x_gr,y_gr=np.meshgrid(x,y)
  #, 
@@ -470,11 +470,11 @@ class Data_process:
         else:
             pos=ax1.pcolormesh(x_gr, y_gr, cl, cmap ='GnBu',shading='auto',alpha=1,vmin=vmin, vmax=vmax)
 
-        
-        cbar=self.fig.colorbar(pos,ax=ax1)
-        cbar.ax.tick_params(labelsize=8)
-        cbar.ax.xaxis.set_ticks_position("top")
-        cbar.ax.set_title(cbar_label,fontsize=8)
+        if cbar_:
+            cbar=self.fig.colorbar(pos,ax=ax1)
+            cbar.ax.tick_params(labelsize=8)
+            cbar.ax.xaxis.set_ticks_position("top")
+            cbar.ax.set_title(cbar_label,fontsize=8)
         
     #def hist_plot(self,plot_index,cl)
 

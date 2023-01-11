@@ -18,16 +18,16 @@ from data_ex import *
 root_loc=path_to_cache+'/data'
 N=80
 #V11_arry=np.linspace(0,V11_max,N)
-w0=2
-w1=4
+w0=0.5
+w1=1
 V_00=0
 V_01=0
 V_11=0
 J11=0
-V_00_start=0
-V_00_end=15
-J_01_start=0
-J_01_end=15
+V_00_start=0 
+V_00_end=1
+J_01_start=0 
+J_01_end=1
 file_loc='/onlyx_spectrum_w0_'+str(w0)+'_w1_'+str(w1) 
 try:
     os.mkdir(root_loc+file_loc)
@@ -44,12 +44,16 @@ V_00_arry=np.linspace(V_00_start,V_00_end,N)
 J01_arry=np.linspace(J_01_start,J_01_end,N)
  
 N_sample=60
-_start=0
-_end=15
+_start=0 
+_end=1
 arry=np.linspace(_start,_end,N_sample)
 
-entangle_sample_V00_index=15
-entangle_sample_J01_index=15
+sample_V00=0.6
+sample_J01=0.3
+
+
+entangle_sample_V00_index=np.argmin(np.abs(V_00_arry-sample_V00))
+entangle_sample_J01_index=np.argmin(np.abs(J01_arry-sample_J01))
 
 
 
@@ -72,7 +76,7 @@ for k in tqdm(range(0,N_sample), desc="Sampling"):
             V_00=V_00_arry[i]
             J01=J01_arry[j]
             H_ref=H_sys(V00=0,V01=0,V11=0,J01=0,J11=0,t=0,w0=w0,w=w1)
-            info_vector1=H_ref.get_first_two_eigen_info_onlyx(unique_=True)
+            info_vector1=H_ref.get_first_two_eigen_info_onlyx( )
             Eign_2e_ref,Eign_3e_ref=H_ref.eigen_vec_all()
             
             #print(np.round(info_vector1,2))
@@ -157,10 +161,10 @@ for k in tqdm(range(0,N_sample), desc="Sampling"):
     data_.simple_contour(plot_index=4,x_arry=J01_grid,y_arry=V00_grid,z_arry=A_grid,color_t='black',log_scale_x=False,log_scale_y=False,label_name=' ',alpha=0.3,lw=8,num_of_levels=[zero_val])
     data_.simple_contour(plot_index=6,x_arry=J01_grid,y_arry=V00_grid,z_arry=A_grid,color_t='black',log_scale_x=False,log_scale_y=False,label_name=' ',alpha=0.3,lw=8,num_of_levels=[zero_val])
 
-    data_.simple_contour_color(plot_index=1,x_arry=J01_grid,y_arry=V00_grid,z_arry=A_grid,log_scale_x=False,log_scale_y=False,alpha=1,cbar_=True,cmap='RdBu',cbar_label='')
-    data_.simple_contour_color(plot_index=3,x_arry=J01_grid,y_arry=V00_grid,z_arry=B_grid,log_scale_x=False,log_scale_y=False,alpha=1,cbar_=True,cmap='RdBu',cbar_label='')
-    data_.simple_contour_color(plot_index=4,x_arry=J01_grid,y_arry=V00_grid,z_arry=C_grid,log_scale_x=False,log_scale_y=False,alpha=1,cbar_=True,cmap='RdBu',cbar_label='')
-    data_.simple_contour_color(plot_index=6,x_arry=J01_grid,y_arry=V00_grid,z_arry=D_grid,log_scale_x=False,log_scale_y=False,alpha=1,cbar_=True,cmap='RdBu',cbar_label='',color_range=[-5,5])
+    data_.simple_contour_color(plot_index=1,x_arry=J01_grid,y_arry=V00_grid,z_arry=A_grid,log_scale_x=False,log_scale_y=False,alpha=1,cbar_=True,cmap='RdBu',cbar_label='',color_range=[-1,1])
+    data_.simple_contour_color(plot_index=3,x_arry=J01_grid,y_arry=V00_grid,z_arry=B_grid,log_scale_x=False,log_scale_y=False,alpha=1,cbar_=True,cmap='RdBu',cbar_label='',color_range=[-1,1])
+    data_.simple_contour_color(plot_index=4,x_arry=J01_grid,y_arry=V00_grid,z_arry=C_grid,log_scale_x=False,log_scale_y=False,alpha=1,cbar_=True,cmap='RdBu',cbar_label='',color_range=[-1,1])
+    data_.simple_contour_color(plot_index=6,x_arry=J01_grid,y_arry=V00_grid,z_arry=D_grid,log_scale_x=False,log_scale_y=False,alpha=1,cbar_=True,cmap='RdBu',cbar_label='',color_range=[-1,1])
 
     #data_.simple_scatter(plot_index=1,x_arry=J01,y_arry=V00,color_t=A,marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=30,cbar_label='Energy',color_range=color_range)
     #data_.simple_scatter(plot_index=2,x_arry=J01,y_arry=V00,color_t=B,marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=30,cbar_label='Energy',color_range=color_range)
@@ -168,11 +172,11 @@ for k in tqdm(range(0,N_sample), desc="Sampling"):
     #data_.simple_scatter(plot_index=4,x_arry=J01,y_arry=V00,color_t=D,marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=1,add_line=False,s=30,cbar_label='Energy',color_range=color_range)
 
     
-    x=J01[np.abs((ex_with_J_2e[:,0]))-0.1<0]
-    y=V00[np.abs((ex_with_J_2e[:,0]))-0.1<0]
-    param = np.linspace(0, 1, x.size)
-    spl = make_interp_spline(param, np.c_[x,y], k=3) #(1)
-    xnew, y_smooth = spl(np.linspace(0, 1, x.size * 20)).T #(2)
+    # x=J01[np.abs((ex_with_J_2e[:,0]))-0.1<0]
+    # y=V00[np.abs((ex_with_J_2e[:,0]))-0.1<0]
+    # param = np.linspace(0, 1, x.size)
+    # spl = make_interp_spline(param, np.c_[x,y], k=3) #(1)
+    # xnew, y_smooth = spl(np.linspace(0, 1, x.size * 20)).T #(2)
 
 #    data_.simple_plot(plot_index=1,x_arry=xnew,y_arry=y_smooth,color_t='black',log_scale_x=False,log_scale_y=False,label_name=' ',alpha=0.8,lw=2)
 #    data_.simple_plot(plot_index=2,x_arry=xnew,y_arry=y_smooth,color_t='black',log_scale_x=False,log_scale_y=False,label_name=' ',alpha=0.8,lw=2)
@@ -190,7 +194,7 @@ for k in tqdm(range(0,N_sample), desc="Sampling"):
     #data_.simple_plot(plot_index=4,x_arry=xnew,y_arry=y_smooth,color_t='cyan',log_scale_x=False,log_scale_y=False,label_name=' ',alpha=0.8,lw=2)
 
 
-    data_.simple_scatter(plot_index=6,x_arry=x,y_arry=y,color_t='seagreen',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.5,add_line=False,s=30,cbar_label='Energy',cbar_=False)
+    data_.simple_scatter(plot_index=6,x_arry=x,y_arry=y,color_t='seagreen',marker='s',log_scale_x=False,log_scale_y=False,label_name=' ',twinx=False,alpha=0.2,add_line=False,s=30,cbar_label='Energy',cbar_=False)
 
     # setup subplots 
     sub_axis_arry,sub_axis_arry_index=data_.add_subplot_sub_non_uniform_grid_row(plot_index=2,size_x_array=[4,1,4,1,4,1,4],y_ratio_array=[0,0.2,0.05,0.2,0.05,0.2,0.05,0.2])
