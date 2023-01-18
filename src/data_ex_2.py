@@ -1,6 +1,6 @@
 from src import *
 class H_sys:
-    def __init__(self,V00,V01,V11,J01,J11,t,w0,w):
+    def __init__(self,V00,V01,V11,J01,J11,t,w0,w,single_x=True):
         self.w=w
         self.V00=V00
         self.V11=V11
@@ -35,8 +35,9 @@ class H_sys:
             [1j*w0,-J01 ,A_1,-1j*w0],
             [0,1j*w0 ,1j*w0,A_2]
         ])
-        self.Val_1=linalg.eig(matrix_2_e_onlyx)
-        self.E2_onlyx=self.Val_1
+        if single_x:
+            self.Val_1=linalg.eig(matrix_2_e_onlyx)
+            self.E2_onlyx=self.Val_1
 
         matrix_1_e_onlyx=np.array([
             [-2*w/3,-1j*w0],
@@ -61,7 +62,7 @@ class H_sys:
         ])
         self.E2_spin1=linalg.eig(matrix_2_e_spin1)
 
-        matrix_exciton=np.array([
+        matrix_exciton= 3*np.array([
         [1*w/3,0,0,0,0,-1j*w0],
         [0,1*w/3,0,0,-1j*w0,0],
         [0,0,-1*w/3,0,-1j*w0,0],
@@ -117,8 +118,9 @@ class H_sys:
             [B_0,-1j*w0],
             [1j*w0,B_1]
         ])
-        self.Val_2=linalg.eig(matrix_3_e_onlyx)
-        self.E3_onlyx=self.Val_2
+        if single_x:
+            self.Val_2=linalg.eig(matrix_3_e_onlyx)
+            self.E3_onlyx=self.Val_2
      #   print(np.round(self.Val_2[0],2))
      #   print(np.round(self.Val_2[1],2).T)
         sum_val=J01+J11+t
@@ -212,7 +214,8 @@ class H_sys:
         print(b)
         print(a)
         '''
- 
+        print('ex_')
+        print(np.round(self.Ext[0].real,2))
         #print(self.normalize(norm_a-Extend_vec[5])/Extend_vec[3])
     def get_extion_info(self):
         inde_arry=np.argsort(self.Ext[0])

@@ -13,12 +13,12 @@ path_to_cache = os.path.join(path_this_script_splitted[0], 'cache')
 
 from sweep_energy import *
 from tqdm import tqdm
-from data_ex import *
+from data_ex_onlyx import *
 
 root_loc=path_to_cache+'/data'
 N=80
 #V11_arry=np.linspace(0,V11_max,N)
-w0=0.5
+w0=0
 w1=1
 V_00=0
 V_01=0

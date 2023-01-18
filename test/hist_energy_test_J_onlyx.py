@@ -13,7 +13,7 @@ path_to_cache = os.path.join(path_this_script_splitted[0], 'cache')
 
 from sweep_energy import *
 from tqdm import tqdm
-from data_ex import *
+from data_ex_onlyx import *
 
 root_loc=path_to_cache+'/images'
 V11_max=1

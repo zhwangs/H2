@@ -1,4 +1,4 @@
-from data_ex import *
+from data_ex_onlyx import *
 
 
 

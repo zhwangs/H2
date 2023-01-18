@@ -1,4 +1,4 @@
-from data_ex import *
+from data_ex_onlyx import *
 
 
 def j_sweep(J_val,J_ratio_01,w,V_00,V_01,V_11,J_ratio_11,J_ratio_01_start,J_ratio_11_start,control_p=0,density=100):
